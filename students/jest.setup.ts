@@ -226,6 +226,15 @@ jest.mock('react-native-fs', () => ({
   })),
 }));
 
+jest.mock('react-native-date-picker', () => () => null);
+
+// weird mock due to barrel imports
+// inside of lib ui itself
+jest.mock('../lib/src/ui/components/Grid', () => ({
+  ...jest.requireActual('../lib/src/ui/components/Grid'),
+  Grid: ({ children }: { children: React.ReactNode }) => children,
+}));
+
 // mocking out from App.tsx, this allows us to run App.tsx without sentry interfering
 jest.mock('@polito/lib/core', () => ({
   ...jest.requireActual('@polito/lib/core'),
@@ -234,6 +243,7 @@ jest.mock('@polito/lib/core', () => ({
     ...jest.requireActual('@polito/lib/core').Sentry,
     withTouchEventBoundary: (c: any) => c,
   },
+  setTimeoutAccessibilityInfoHelper: jest.fn(),
 }));
 
 // Auth mock
