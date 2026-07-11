@@ -1,4 +1,4 @@
-import { ProvisionalGrade } from '@polito/student-api-client';
+import { ExamGrade, ProvisionalGrade } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
@@ -14,10 +14,12 @@ describe('Recorded grade detail flow: Teaching, Grades, RecordedGradeScreen', ()
     server.use(
       mockRoute('/v2/courses'),
       mockRoute('/exams', { body: { data: [] } }),
-      mockRoute('/provisional-grades', {
-        body: { data: [], states: [] } as { data: ProvisionalGrade[] },
+      mockRoute<ProvisionalGrade[]>('/provisional-grades', {
+        body: { data: [], states: [] },
       }),
-      mockRoute('/grades', { body: { data: [TEST_RECORDED_GRADE] } }),
+      mockRoute<ExamGrade[]>('/grades', {
+        body: { data: [TEST_RECORDED_GRADE] },
+      }),
     );
   });
 

@@ -1,4 +1,8 @@
-import { NewsItem } from '@polito/student-api-client';
+import {
+  EmailBadge,
+  NewsItem,
+  NewsItemOverview,
+} from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
@@ -14,10 +18,12 @@ describe('News flow: Services, News & Events, NewsItemScreen', () => {
     server.use(
       mockRoute('/v2/courses'),
       mockRoute('/exams', { body: { data: [] } }),
-      mockRoute('/unreadEmails', {
+      mockRoute<EmailBadge>('/unreadEmails', {
         body: { data: { unreadEmails: '0' } },
       }),
-      mockRoute('/news', { body: { data: [TEST_NEWS_OVERVIEW] } }),
+      mockRoute<NewsItemOverview[]>('/news', {
+        body: { data: [TEST_NEWS_OVERVIEW] },
+      }),
     );
   });
 

@@ -1,3 +1,4 @@
+import { Exam } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
@@ -13,7 +14,7 @@ describe('Exam flow: cancellation', () => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
       mockRoute('/v2/courses'),
-      mockRoute('/exams', { body: { data: [BOOKED_EXAM] } }),
+      mockRoute<Exam[]>('/exams', { body: { data: [BOOKED_EXAM] } }),
     );
   });
 

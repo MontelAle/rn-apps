@@ -16,10 +16,8 @@ describe('Provisional grade flow: acceptance', () => {
       mockRoute('/v2/courses'),
       mockRoute('/exams', { body: { data: [] } }),
       mockRoute('/grades', { body: { data: [] } }),
-      mockRoute('/provisional-grades', {
-        body: { data: [PROVISIONAL_GRADE_CONFIRMABLE], states: [] } as {
-          data: ProvisionalGrade[];
-        },
+      mockRoute<ProvisionalGrade[]>('/provisional-grades', {
+        body: { data: [PROVISIONAL_GRADE_CONFIRMABLE], states: [] },
       }),
     );
   });
@@ -82,10 +80,8 @@ describe('Provisional grade flow: rejection', () => {
       mockRoute('/grades', { body: { data: [] } }),
       // The API client parses both `data` and `states` — omitting `states`
       // causes an uncaught .map() on undefined that silently fails the query.
-      mockRoute('/provisional-grades', {
-        body: { data: [PROVISIONAL_GRADE_CONFIRMABLE], states: [] } as {
-          data: ProvisionalGrade[];
-        },
+      mockRoute<ProvisionalGrade[]>('/provisional-grades', {
+        body: { data: [PROVISIONAL_GRADE_CONFIRMABLE], states: [] },
       }),
     );
   });

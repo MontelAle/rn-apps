@@ -1,4 +1,4 @@
-import { Ticket } from '@polito/student-api-client';
+import { EmailBadge, Ticket, TicketOverview } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
@@ -15,10 +15,12 @@ describe('Ticket flow: Services, Ticket, TicketsScreen, TicketScreen', () => {
     server.use(
       mockRoute('/v2/courses'),
       mockRoute('/exams', { body: { data: [] } }),
-      mockRoute('/unreadEmails', {
+      mockRoute<EmailBadge>('/unreadEmails', {
         body: { data: { unreadEmails: '0' } },
       }),
-      mockRoute('/tickets', { body: { data: [TEST_TICKET_OVERVIEW] } }),
+      mockRoute<TicketOverview[]>('/tickets', {
+        body: { data: [TEST_TICKET_OVERVIEW] },
+      }),
     );
   });
 

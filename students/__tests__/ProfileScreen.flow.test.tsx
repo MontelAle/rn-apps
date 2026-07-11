@@ -1,3 +1,4 @@
+import { NotificationPreferences } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
@@ -44,9 +45,10 @@ describe('Notifications preferences flow', () => {
     server.use(
       mockRoute('/v2/courses'),
       mockRoute('/exams', { body: { data: [] } }),
-      mockRoute('/notifications/preferences', {
-        body: { data: { tickets: true, bookings: false } },
-      }),
+      mockRoute<Partial<NotificationPreferences>>(
+        '/notifications/preferences',
+        { body: { data: { tickets: true, bookings: false } } },
+      ),
     );
   });
 

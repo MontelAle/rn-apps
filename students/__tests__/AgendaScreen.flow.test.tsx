@@ -1,3 +1,4 @@
+import { Lecture } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
@@ -14,7 +15,7 @@ describe('Agenda flow: Agenda tab, weekly lecture loads', () => {
       mockRoute('/v2/courses'),
       mockRoute('/exams', { body: { data: [] } }),
       mockRoute('/bookings', { body: { data: [] } }),
-      mockRoute('/lectures', { body: { data: [TEST_LECTURE] } }),
+      mockRoute<Lecture[]>('/lectures', { body: { data: [TEST_LECTURE] } }),
       mockRoute('/deadlines', { body: { data: [] } }),
     );
   });

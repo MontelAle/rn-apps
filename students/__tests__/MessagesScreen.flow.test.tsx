@@ -1,3 +1,4 @@
+import { Message } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
@@ -35,7 +36,9 @@ describe('Messages flow: Profile, Messages', () => {
   });
 
   it('MessagesScreen lists messages returned by the API', async () => {
-    server.use(mockRoute('/messages', { body: { data: [TEST_MESSAGE] } }));
+    server.use(
+      mockRoute<Message[]>('/messages', { body: { data: [TEST_MESSAGE] } }),
+    );
 
     await render(<App />);
 

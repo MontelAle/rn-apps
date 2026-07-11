@@ -14,8 +14,8 @@ describe('Career flow: Teaching, Transcript, Career tab', () => {
       mockRoute('/v2/courses'),
       mockRoute('/exams', { body: { data: [] } }),
       mockRoute('/grades', { body: { data: [] } }),
-      mockRoute('/provisional-grades', {
-        body: { data: [], states: [] } as { data: ProvisionalGrade[] },
+      mockRoute<ProvisionalGrade[]>('/provisional-grades', {
+        body: { data: [], states: [] },
       }),
     );
   });

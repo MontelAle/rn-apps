@@ -5,7 +5,7 @@ import { specExample } from './getSpec';
 type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
 interface MockRouteOptions<T = unknown> {
-  body?: { data: T };
+  body?: { data: T } & Record<string, unknown>;
   headers?: Record<string, string>;
   status?: number;
   method?: HttpMethod;
@@ -17,8 +17,11 @@ const BASE = 'https://app.didattica.polito.it/api';
 /**
  * Returns an MSW handler for the given OpenAPI spec path.
  *
- * - Pass `options.body` as the full response envelope (e.g. `{ data: ... }`).
- *   Omit it to use the spec's 200 example.
+ * - Pass the `T` type parameter for the type of `data` in the response
+ *   (e.g. `mockRoute<Course>(...)`). `options.body` still takes the full
+ *   response envelope (e.g. `{ data: ..., states: ... }`); extra envelope
+ *   properties beyond `data` are untyped. Omit `options.body` to use the
+ *   spec's 200 example.
  * - Pass `options.headers` to include custom response headers.
  * - {param} placeholders with a matching entry in `options.params` are
  *   substituted with the concrete value; unresolved ones become :param
