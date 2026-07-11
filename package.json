@@ -10,7 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "fixpilot": "node ./tools/scripts/fixpilot.js",
-    "lint:check": "eslint --max-warnings=0 '**/*.{ts,tsx}'",
+    "lint:check": "eslint --max-warnings=0 . --ext .ts,.tsx",
     "lint": "npm run lint:check -- --fix",
     "knip": "knip --no-config-hints",
     "commit": "commit",
