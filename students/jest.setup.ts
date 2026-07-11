@@ -2,6 +2,12 @@ import 'react-native-gesture-handler/jestSetup';
 
 import { server } from './src/test/server';
 
+// --- suppress console
+// Disable debug and warn to avoid pollution in the logs
+// To temporarily see them again, comment out the relevant line below.
+console.debug = () => {};
+console.warn = () => {};
+
 // --- imported mocks
 // some libraries require instead their mocks be
 // imported in jest.config
