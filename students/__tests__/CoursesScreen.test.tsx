@@ -6,7 +6,6 @@ import {
   PROGRAMMING_MODULE_A_DETAIL,
   WEB_APPS_II_DETAIL,
 } from '~/testing/constants';
-import { commonRoutes } from '~/testing/msw/commonRoutes';
 import { server } from '~/testing/msw/server';
 import { mockRoute } from '~/testing/utils/mockRoute';
 
@@ -17,7 +16,6 @@ describe('Module course flow: expand and navigate into a sub-module', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      ...commonRoutes(),
       mockRoute('/exams'),
       mockRoute('/v2/courses'),
       mockRoute<Course>('/courses/{courseId}', {
@@ -72,7 +70,6 @@ describe('Tab navigation: Info, Notices, Files', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      ...commonRoutes(),
       mockRoute('/exams'),
       mockRoute('/v2/courses'),
       mockRoute<Course>('/courses/{courseId}', {

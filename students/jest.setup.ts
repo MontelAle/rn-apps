@@ -22,6 +22,7 @@ timeoutManager.setTimeoutProvider({
 // To temporarily see them again, comment out the relevant line below.
 console.debug = () => {};
 console.warn = () => {};
+console.error = () => {};
 
 // --- imported mocks
 // some libraries require instead their mocks be
