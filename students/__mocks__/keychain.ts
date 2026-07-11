@@ -1,17 +1,32 @@
-type Credentials = { username: string; token: string };
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type Credentials = { username: string; password?: string | null };
 let stored: Credentials | undefined;
 
-export const getCredentials = jest.fn(async () => stored);
-export const setCredentials = jest.fn(async (c: Credentials) => {
-  stored = c;
-});
+export const getCredentials = jest.fn(
+  async (): Promise<Credentials | false> => stored ?? false,
+);
+export const setCredentials = jest.fn(
+  async (username: string, password: string | null = null) => {
+    stored = { username, password };
+    return true;
+  },
+);
 export const resetCredentials = jest.fn(async () => {
   stored = undefined;
 });
 
-export const __seedCredentials = (c: Credentials) => {
-  stored = c;
+export const checkCanSavePrivateKeyMFA = jest.fn(async () => false);
+export const hasPrivateKeyMFA = jest.fn(async () => false);
+export const getPrivateKeyMFA = jest.fn(async () => null);
+export const savePrivateKeyMFA = jest.fn(async () => true);
+export const resetPrivateKeyMFA = jest.fn(async () => {});
+
+export const __seedCredentials = ({ username, password }: Credentials) => {
+  stored = { username, password };
+  AsyncStorage.setItem('username', username);
 };
+
 export const __resetKeychain = () => {
   stored = undefined;
 };

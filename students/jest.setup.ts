@@ -1,6 +1,21 @@
 import 'react-native-gesture-handler/jestSetup';
 
-import { server } from './src/test/server';
+import { timeoutManager } from '@tanstack/react-query';
+
+import { server } from './src/testing/msw/server';
+
+// --- react-query timers
+// necessary to suppress on queryclient refetches
+const unref = <T>(id: T): T => {
+  (id as { unref?: () => void })?.unref?.();
+  return id;
+};
+timeoutManager.setTimeoutProvider({
+  setTimeout: (cb, delay) => unref(setTimeout(cb, delay)),
+  clearTimeout: id => clearTimeout(id),
+  setInterval: (cb, delay) => unref(setInterval(cb, delay)),
+  clearInterval: id => clearInterval(id),
+});
 
 // --- suppress console
 // Disable debug and warn to avoid pollution in the logs
@@ -95,6 +110,7 @@ jest.mock('expo-web-browser', () => ({
 
 jest.mock('@sentry/react-native', () => ({
   setUser: jest.fn(),
+  setTag: jest.fn(),
   reactNavigationIntegration: jest.fn(() => ({
     registerNavigationContainer: jest.fn(),
   })),
@@ -182,6 +198,17 @@ jest.mock('@react-native-firebase/messaging', () => ({
   getMessaging: jest.fn(() => ({})),
   getToken: jest.fn(async () => 'fake-fcm-token'),
   onMessage: jest.fn(() => jest.fn()),
+  onTokenRefresh: jest.fn(() => jest.fn()),
+  onNotificationOpenedApp: jest.fn(() => jest.fn()),
+  getInitialNotification: jest.fn(async () => null),
+  requestPermission: jest.fn(async () => 1),
+  setBackgroundMessageHandler: jest.fn(),
+  AuthorizationStatus: {
+    NOT_DETERMINED: -1,
+    DENIED: 0,
+    AUTHORIZED: 1,
+    PROVISIONAL: 2,
+  },
 }));
 
 jest.mock('react-native-fs', () => ({
@@ -212,7 +239,11 @@ jest.mock('@polito/lib/core', () => ({
 // allows us to set easily set user
 jest.mock('~/utils/keychain', () => require('./__mocks__/keychain'));
 
-beforeEach(() => require('./__mocks__/keychain').__resetKeychain());
+beforeEach(() => {
+  require('./__mocks__/keychain').__resetKeychain();
+  // clear storage between tests
+  require('@react-native-async-storage/async-storage').clear();
+});
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
