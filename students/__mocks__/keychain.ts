@@ -24,9 +24,11 @@ export const resetPrivateKeyMFA = jest.fn(async () => {});
 
 export const __seedCredentials = ({ username, password }: Credentials) => {
   stored = { username, password };
+  // this is needed becaues App takes preference from AsyncStorage
   AsyncStorage.setItem('username', username);
 };
 
 export const __resetKeychain = () => {
   stored = undefined;
+  return AsyncStorage.removeItem('username');
 };
