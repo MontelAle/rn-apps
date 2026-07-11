@@ -1,11 +1,10 @@
-import { Alert } from 'react-native';
-
 import { ProvisionalGrade } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
 import { PROVISIONAL_GRADE_CONFIRMABLE } from '~/testing/constants';
 import { server } from '~/testing/msw/server';
+import { mockConfirmAlert } from '~/testing/utils/mockConfirmAlert';
 import { mockRoute } from '~/testing/utils/mockRoute';
 
 import { __seedCredentials } from '../__mocks__/keychain';
@@ -62,11 +61,9 @@ describe('Provisional grade flow: acceptance', () => {
       name: 'Request immediate registration',
     });
 
-    // Spy after navigation so the mock does not intercept any call during
-    // GradesScreen's initial render.
-    jest.spyOn(Alert, 'alert').mockImplementation((_, __, buttons) => {
-      buttons?.[0]?.onPress?.(); // "Ok" → confirm acceptance
-    });
+    mockConfirmAlert(
+      'By requesting immediate registration, the evaluation will be recorded in your transcript and you will no longer be able to change your decision',
+    );
 
     fireEvent.press(
       screen.getByRole('button', { name: 'Request immediate registration' }),
@@ -113,9 +110,9 @@ describe('Provisional grade flow: rejection', () => {
       name: 'Request immediate registration',
     });
 
-    jest.spyOn(Alert, 'alert').mockImplementation((_, __, buttons) => {
-      buttons?.[0]?.onPress?.(); // "Ok" → confirm rejection
-    });
+    mockConfirmAlert(
+      'By rejecting this evaluation you will no longer be able to change your decision',
+    );
 
     fireEvent.press(
       screen.getByRole('button', { name: /Reject the evaluation/ }),

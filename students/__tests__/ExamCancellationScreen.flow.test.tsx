@@ -1,10 +1,9 @@
-import { Alert } from 'react-native';
-
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
 import { BOOKED_EXAM } from '~/testing/constants';
 import { server } from '~/testing/msw/server';
+import { mockConfirmAlert } from '~/testing/utils/mockConfirmAlert';
 import { mockRoute } from '~/testing/utils/mockRoute';
 
 import { __seedCredentials } from '../__mocks__/keychain';
@@ -45,11 +44,7 @@ describe('Exam flow: cancellation', () => {
 
     await screen.findByText(BOOKED_EXAM.type);
 
-    // Spy after navigation so the mock does not intercept any call during
-    // TeachingScreen's initial render.
-    jest.spyOn(Alert, 'alert').mockImplementation((_, __, buttons) => {
-      buttons?.[0]?.onPress?.(); // "Ok" → confirm cancellation
-    });
+    mockConfirmAlert('This action may not be undoable');
 
     fireEvent.press(await screen.findByText('Cancel booking'));
 
