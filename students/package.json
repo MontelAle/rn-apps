@@ -7,6 +7,7 @@
     "ios": "react-native run-ios --port 8081 || echo 'If iOS startup fails, try running: npm run fixpilot'",
     "start": "react-native start --reset-cache",
     "commit": "commit",
+    "test": "jest",
     "lint:check": "eslint --max-warnings=0 . --ext .ts,.tsx",
     "lint": "npm run lint:check -- --fix",
     "format:check": "prettier --check './**/*.{ts,tsx,md}' --ignore-path ../.prettierignore",

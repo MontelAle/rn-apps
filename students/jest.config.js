@@ -7,6 +7,7 @@ const rnmapboxJestSetup = path.join(
 
 module.exports = {
   preset: 'react-native',
+  cacheDirectory: '<rootDir>/.jest-cache',
   testEnvironmentOptions: {
     customExportConditions: ['require', 'react-native', 'node'],
   },

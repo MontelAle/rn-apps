@@ -1,8 +1,11 @@
 import 'react-native-gesture-handler/jestSetup';
 
 import { timeoutManager } from '@tanstack/react-query';
+import { configure } from '@testing-library/react-native';
 
 import { server } from './src/testing/msw/server';
+
+configure({ asyncUtilTimeout: 5000 });
 
 // --- react-query timers
 // necessary to suppress on queryclient refetches
