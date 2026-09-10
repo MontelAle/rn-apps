@@ -18,7 +18,7 @@ describe('Ticket flow: Services, Ticket, TicketsScreen, TicketScreen', () => {
       mockRoute<EmailBadge>('/unreadEmails', {
         body: { data: { unreadEmails: '0' } },
       }),
-      mockRoute<TicketOverview[]>('/tickets', {
+      mockRoute<TicketOverview[]>('/student/tickets', {
         body: { data: [TEST_TICKET_OVERVIEW] },
       }),
     );
@@ -32,13 +32,13 @@ describe('Ticket flow: Services, Ticket, TicketsScreen, TicketScreen', () => {
     );
     fireEvent.press(await screen.findByText('Ticket'));
 
-    expect(await screen.findByText('Open tickets')).toBeOnTheScreen();
+    expect(await screen.findByText('My tickets')).toBeOnTheScreen();
     expect(await screen.findByText('Library card renewal')).toBeOnTheScreen();
   });
 
   it('pressing an open ticket navigates to TicketScreen and shows the ticket details', async () => {
     server.use(
-      mockRoute<Ticket>('/tickets/{ticketId}', {
+      mockRoute<Ticket>('/student/tickets/{ticketId}', {
         body: { data: TEST_TICKET },
       }),
     );
@@ -51,6 +51,8 @@ describe('Ticket flow: Services, Ticket, TicketsScreen, TicketScreen', () => {
     fireEvent.press(await screen.findByText('Ticket'));
     fireEvent.press(await screen.findByText('Library card renewal'));
 
-    expect(await screen.findByText('Ticket number')).toBeOnTheScreen();
+    expect(
+      await screen.findByRole('button', { name: 'Ticket details' }),
+    ).toBeOnTheScreen();
   });
 });

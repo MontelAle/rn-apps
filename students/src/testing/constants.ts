@@ -202,8 +202,9 @@ export const TEST_TICKET_OVERVIEW: TicketOverview = {
   id: 5500,
   subject: 'Library card renewal',
   message: 'I need help renewing my library card.',
-  status: TicketStatus.New,
+  status: TicketStatus.Open,
   hasAttachments: false,
+  needsFeedback: false,
   isFromAgent: false,
   agentId: null,
   unreadCount: 0,
@@ -215,6 +216,7 @@ export const TEST_TICKET: Ticket = {
   ...TEST_TICKET_OVERVIEW,
   replies: [],
   attachments: [],
+  duplicateId: null,
 };
 
 // courseId 999999 does not match any course in the /v2/courses spec example, so

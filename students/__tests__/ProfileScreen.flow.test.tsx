@@ -16,7 +16,7 @@ describe('Profile screen flow', () => {
     );
   });
 
-  it('navigating to the Profile tab shows the degree name', async () => {
+  it('navigating to the Profile tab shows the career degree level', async () => {
     await render(<App />);
 
     fireEvent.press(
@@ -24,7 +24,7 @@ describe('Profile screen flow', () => {
     );
 
     expect(
-      await screen.findByText('INGEGNERIA INFORMATICA (COMPUTER ENGINEERING)'),
+      await screen.findByText('Corso di Laurea Magistrale'),
     ).toBeOnTheScreen();
   });
 

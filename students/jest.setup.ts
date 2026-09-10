@@ -112,6 +112,24 @@ jest.mock('expo-web-browser', () => ({
   WebBrowserPresentationStyle: {},
 }));
 
+jest.mock('expo-file-system', () => ({
+  Paths: { cache: '/tmp/caches', document: '/tmp/documents' },
+  File: class {
+    uri: string;
+    exists = false;
+    constructor(...segments: string[]) {
+      this.uri = segments.join('/');
+    }
+    create = jest.fn(() => {
+      this.exists = true;
+    });
+    write = jest.fn(() => {});
+    delete = jest.fn(() => {
+      this.exists = false;
+    });
+  },
+}));
+
 jest.mock('@sentry/react-native', () => ({
   setUser: jest.fn(),
   setTag: jest.fn(),
