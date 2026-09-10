@@ -9,7 +9,7 @@ import {
   Images,
   RasterLayer,
   RasterSource,
-  UserLocation,
+  UserLocation, //removed momentarily
 } from '@rnmapbox/maps';
 
 import { notNullish } from '../../../core/utils/predicates';
@@ -21,6 +21,7 @@ import { useTitlesStyles } from '../../../ui/hooks/useTitlesStyles';
 import { INTERIORS_MIN_ZOOM, MAX_ZOOM, RASTER_TILE_SIZE } from '../constants';
 import { PlacesContext } from '../contexts/PlacesContext';
 import { usePlaceCategoriesMap } from '../hooks/usePlaceCategoriesMap';
+import { BeaconTestScreen } from '../screens/BeaconTestScreen';
 import { BuildingScreen } from '../screens/BuildingScreen';
 import { EventPlacesScreen } from '../screens/EventPlacesScreen';
 import { FreeRoomsScreen } from '../screens/FreeRoomsScreen';
@@ -64,6 +65,7 @@ export type PlacesStackParamList = {
     startRoom: string;
     destRoom: string;
   };
+  BLETest: {};
   PlaceCategories: undefined;
   MessagesModal: undefined;
   FreeRooms: undefined;
@@ -94,7 +96,7 @@ const MapDefaultContent = () => {
 
   return (
     <>
-      <UserLocation />
+      {/*<UserLocation />*/}
 
       {/* Marker images */}
       <Images images={images} />
@@ -311,6 +313,13 @@ export const PlacesNavigator = ({
           component={FreeRoomsScreen}
           options={{
             title: t('freeRoomsScreen.title'),
+          }}
+        />
+        <Map.Screen
+          name="BLETest"
+          component={BeaconTestScreen}
+          options={{
+            title: t('prova BLE Beacons'),
           }}
         />
       </Map.Navigator>

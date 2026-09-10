@@ -13,7 +13,10 @@ export type NavigationPlaceType = {
 
 export type NavField = 'start' | 'destination';
 
+/*
 export type Fingerprint = {
-  locationName: string;
+  id: string;
+  latitude: number;
+  longitude: number;
   signals: Record<string, number>;
-};
+};*/

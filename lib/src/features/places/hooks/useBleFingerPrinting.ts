@@ -1,171 +1,204 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
+//import Beacon, { useBeaconRanging } from 'react-native-beacon-kit';
+import { Device, ScanMode } from 'react-native-ble-plx';
 
-import { requestBluetoothPermissions } from '../../../core/permissions/permissions.android';
-import { Fingerprint } from '../types';
 import { bleManager } from '../utils/bleManager';
+import { parseIBeacon } from '../utils/parseIBeaconData';
 
-export const useBleFingerprinting = () => {
-  const [isBleReady, setIsBleReady] = useState(false);
-  const [isScanning, setIsScanning] = useState(false);
-  const [countdown, setCountdown] = useState(0);
-  const [fingerprintDB, setFingerprintDB] = useState<Fingerprint[]>([]);
-  const [estimatedLocation, setEstimatedLocation] = useState<string | null>(
-    null,
-  );
+/*
+const BEACON_UUID_MACOS = '00A82381-B393-4AA3-893F-8ED7F01E8966';
+const BEACON_UUID_ANDROID = '07DA29F7-3A6C-46CB-920C-8386273FC84E';
 
-  const tempReadingsRef = useRef<Record<string, number[]>>({});
+const region = {
+  identifier: 'Mac beacons',
+  uuid: BEACON_UUID_MACOS,
+};*/
 
-  // Listen to Bluetooth State
+export type ScannedBeacon = {
+  deviceId: string;
+  name: string | null;
+  rssi: number | null;
+  uuid: string;
+  major: number;
+  minor: number;
+  manufacturerData: string | null;
+};
+
+/*
+export const useScannerBluetooth = () => {
+  const { beacons, error, isActive, start, stop } = useBeaconRanging({
+    region,
+    autoStart: false,
+    stopOnUnmount: true,
+  });
+
   useEffect(() => {
-    const subscription = bleManager.onStateChange(state => {
-      setIsBleReady(state === 'PoweredOn');
-    }, true);
-    return () => subscription.remove();
-  }, []);
+    console.log('==============================');
+    console.log('BEACONS UPDATE');
+    console.log('Numero beacon:', beacons.length);
 
-  // KNN Distance Calculator (Euclidean Distance)
-  const calculateDistance = (
-    currentScan: Record<string, number>,
-    savedFingerprint: Record<string, number>,
-  ) => {
-    let distance = 0;
-    const allMacs = new Set([
-      ...Object.keys(currentScan),
-      ...Object.keys(savedFingerprint),
-    ]);
-
-    allMacs.forEach(mac => {
-      // Penalty for missing devices: If a device is in the map but not in the current scan,
-      // we assume it has a very weak signal (-100 dBm)
-      const rssi1 = currentScan[mac] || -100;
-      const rssi2 = savedFingerprint[mac] || -100;
-      distance += Math.pow(rssi1 - rssi2, 2);
+    beacons.forEach((beacon, index) => {
+      console.log(
+        `[${index}] ` +
+          `UUID=${beacon.uuid} ` +
+          `Major=${beacon.major} ` +
+          `Minor=${beacon.minor} ` +
+          `RSSI=${beacon.rssi} ` +
+          `Distance=${beacon.distance} ` +
+          `MAC=${beacon.macAddress}`,
+      );
     });
 
-    return Math.sqrt(distance);
-  };
+    console.log('==============================');
+  }, [beacons]);
 
-  const runScan = useCallback(
-    async (mode: 'MAP' | 'LOCATE', locationName?: string) => {
-      if (!(await requestBluetoothPermissions())) return;
+  const startScanning = useCallback(async () => {
+    try {
+      console.log('Starting Bluetooth scan...');
 
-      if (isScanning) return;
+      Beacon.configure({
+        scanPeriod: 10000,
+        backgroundScanPeriod: 10000,
+        betweenScanPeriod: 0,
+      });
 
-      if (!isBleReady) {
-        Alert.alert(
-          'Bluetooth Not Ready',
-          'Please wait for Bluetooth to initialize.',
-        );
-        return;
-      }
+      await start();
+    } catch {
+      console.error('Error starting Bluetooth scan:', error);
+    }
+  }, [start]);
 
-      setIsScanning(true);
-      setCountdown(5); // 5 seconds of scanning
-      setEstimatedLocation(null);
-      tempReadingsRef.current = {};
-
-      ////console.log(`\n--- STARTING AMBIENT SCAN (${mode}) ---`);
-
-      // SCAN ALL DEVICES (No beacon filter)
-      bleManager.startDeviceScan(
-        null,
-        { allowDuplicates: true },
-        (error, device) => {
-          if (error) {
-            //console.error('Scan error:', error);
-            return;
-          }
-
-          // Capture everything stronger than -90 dBm
-          if (device && device.id && device.rssi && device.rssi > -75) {
-            if (!tempReadingsRef.current[device.id]) {
-              tempReadingsRef.current[device.id] = [];
-            }
-            tempReadingsRef.current[device.id].push(device.rssi);
-          }
-        },
-      );
-
-      // Timer to stop the scan
-      let currentSeconds = 5;
-      const interval = setInterval(() => {
-        currentSeconds--;
-        setCountdown(currentSeconds);
-
-        if (currentSeconds <= 0) {
-          clearInterval(interval);
-          bleManager.stopDeviceScan();
-          setIsScanning(false);
-
-          // Process Data: Average the RSSI
-          const finalSignals: Record<string, number> = {};
-          for (const id in tempReadingsRef.current) {
-            const readings = tempReadingsRef.current[id];
-            // Only keep ambient devices we saw at least 3 times in 5 seconds (filters out ghosts)
-            if (readings.length >= 3) {
-              const sum = readings.reduce((a, b) => a + b, 0);
-              finalSignals[id] = Math.round(sum / readings.length);
-            }
-          }
-
-          //console.log(
-          //  `Captured ${Object.keys(finalSignals).length} stable ambient devices.`,
-          //);
-
-          if (Object.keys(finalSignals).length === 0) {
-            Alert.alert(
-              'Scan Failed',
-              'No stable Bluetooth signals found. Try moving to a different spot.',
-            );
-            return;
-          }
-
-          // Handle Map vs Locate
-          if (mode === 'MAP' && locationName) {
-            const newFingerprint = { locationName, signals: finalSignals };
-            setFingerprintDB(prev => [...prev, newFingerprint]);
-
-            //console.log(`✅ MAPPED: ${locationName}`);
-            //console.log(JSON.stringify(newFingerprint, null, 2));
-            Alert.alert(
-              'Success',
-              `Mapped ${locationName} with ${Object.keys(finalSignals).length} devices.`,
-            );
-          } else if (mode === 'LOCATE') {
-            if (fingerprintDB.length === 0) return;
-
-            let bestMatch = '';
-            let lowestDistance = Infinity;
-
-            fingerprintDB.forEach(fp => {
-              const distance = calculateDistance(finalSignals, fp.signals);
-              /*console.log(
-                `Distance to ${fp.locationName}: ${distance.toFixed(2)}`,
-              );*/
-
-              if (distance < lowestDistance) {
-                lowestDistance = distance;
-                bestMatch = fp.locationName;
-              }
-            });
-
-            //console.log(`📍 YOU ARE AT: ${bestMatch}`);
-            setEstimatedLocation(bestMatch);
-          }
-        }
-      }, 1000);
-    },
-    [isScanning, isBleReady, fingerprintDB],
-  );
+  const stopScanning = useCallback(async () => {
+    try {
+      await stop();
+      console.log('Bluetooth scan stopped.');
+    } catch {
+      console.error('Error stopping Bluetooth scan:', error);
+    }
+  }, [stop]);
 
   return {
-    isBleReady,
+    beacons,
+    error,
+    isScanning: isActive,
+    startScanning,
+    stopScanning,
+  };
+};*/
+
+export const useScannerBluetooth = () => {
+  const [isScanning, setIsScanning] = useState(false);
+  const [_devices, setDevices] = useState<(Device | null)[]>([]);
+  const scanTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const requestBluetoothPermissions = useCallback(async () => {
+    if (Platform.OS !== 'android') {
+      return true;
+    }
+
+    // Android 12+
+    if (Platform.Version >= 31) {
+      const result = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
+        PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
+      ]);
+
+      const scanGranted =
+        result[PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN] ===
+        PermissionsAndroid.RESULTS.GRANTED;
+
+      const connectGranted =
+        result[PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT] ===
+        PermissionsAndroid.RESULTS.GRANTED;
+
+      return scanGranted && connectGranted;
+    }
+
+    // Android < 12
+    const result = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    );
+
+    return result === PermissionsAndroid.RESULTS.GRANTED;
+  }, []);
+
+  const startScanning = useCallback(async () => {
+    const permissionGranted = await requestBluetoothPermissions();
+
+    if (permissionGranted) {
+      setIsScanning(true);
+      setDevices([]);
+    } else {
+      console.error('Bluetooth permissions not granted.');
+      return;
+    }
+
+    // SCAN ALL DEVICES (No beacon filter)
+    bleManager.startDeviceScan(
+      null,
+      { scanMode: ScanMode.LowLatency, allowDuplicates: true },
+      (error, device) => {
+        if (error) {
+          bleManager.stopDeviceScan();
+          console.error('Error during Bluetooth scan:', error);
+          return;
+        }
+
+        // PARSE IBEACON
+        const beacon = parseIBeacon(device?.manufacturerData, device?.rssi);
+
+        if (!beacon) {
+          return;
+        }
+
+        // ADD TO BUFFER
+        setDevices((prevDevices: any[]) => {
+          const alreadyExists = prevDevices.some(
+            existingDevice => existingDevice.deviceId === device?.id,
+          );
+
+          if (alreadyExists) {
+            return prevDevices;
+          }
+
+          const newBeacon: ScannedBeacon = {
+            deviceId: device?.id ?? '',
+            name: device?.name ?? null,
+            rssi: device?.rssi ?? null,
+
+            uuid: beacon.uuid,
+            major: beacon.major,
+            minor: beacon.minor,
+
+            manufacturerData: device?.manufacturerData ?? null,
+          };
+
+          return [...prevDevices, newBeacon];
+        });
+
+        scanTimeoutRef.current = setTimeout(() => {
+          bleManager.stopDeviceScan();
+          setIsScanning(false);
+        }, 5000);
+      },
+    );
+  }, [requestBluetoothPermissions]);
+
+  const stopScanning = useCallback(() => {
+    bleManager.stopDeviceScan();
+
+    if (scanTimeoutRef.current) {
+      clearTimeout(scanTimeoutRef.current);
+      scanTimeoutRef.current = null;
+    }
+
+    setIsScanning(false);
+  }, []);
+
+  return {
     isScanning,
-    countdown,
-    fingerprintDB,
-    estimatedLocation,
-    mapLocation: (name: string) => runScan('MAP', name),
-    locateMe: () => runScan('LOCATE'),
+    startScanning,
+    stopScanning,
   };
 };

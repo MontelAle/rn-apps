@@ -61,5 +61,8 @@
     "react-native": "0.81.6",
     "react": "19.1.4",
     "@types/react": "19.1.17"
+  },
+  "dependencies": {
+    "react-native-beacon-kit": "^0.12.0"
   }
 }

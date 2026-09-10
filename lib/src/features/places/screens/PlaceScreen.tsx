@@ -326,12 +326,7 @@ export const PlaceScreen = ({ navigation, route }: Props) => {
                         setNavSelectorRoom(null);
                         setAvoidStairs(false);
                         setNavSelectorRoom(null);
-                        navigation.navigate('Indications', {
-                          toPlace: {
-                            placeId: placeId,
-                            namePlace: placeName,
-                          },
-                        });
+                        navigation.navigate('BLETest', {});
                       }}
                     />
                   }
@@ -415,13 +410,7 @@ export const PlaceScreen = ({ navigation, route }: Props) => {
                       setNavSelectorRoom(null);
                       setAvoidStairs(false);
                       setNavSelectorRoom(null);
-                      navigation.navigate('Indications', {
-                        toPlace: {
-                          placeId: place?.id || '',
-                          namePlace:
-                            place?.room.name || place?.category.name || '',
-                        },
-                      });
+                      navigation.navigate('BLETest', {});
                     }}
                   />
                 }
