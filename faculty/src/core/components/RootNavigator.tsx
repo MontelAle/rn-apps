@@ -31,7 +31,6 @@ import {
 } from '@react-navigation/bottom-tabs';
 import {
   NavigatorScreenParams,
-  getFocusedRouteNameFromRoute,
   useNavigation,
 } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -52,12 +51,6 @@ export type RootParamList = {
 };
 const TabNavigator = createBottomTabNavigator<RootParamList>();
 const androidTabBarHeight = 60;
-
-const HIDDEN_TAB_BAR_ROUTES = new Set([
-  'CalendarioSpaziStrutture',
-  'VistaCalendarioSpazio',
-  'NuovaPrenotazioneSpazio',
-]);
 
 const TabBarButton = ({
   children,
@@ -194,29 +187,21 @@ export const RootNavigator = () => {
       <TabNavigator.Screen
         name="Services"
         component={ServiceNavigator}
-        options={({ route }) => {
-          const routeName = getFocusedRouteNameFromRoute(route) ?? 'Servizi';
-          const hideTabBar = HIDDEN_TAB_BAR_ROUTES.has(routeName);
-
-          return {
-            headerShown: false,
-            tabBarLabel: t('other.services'),
-            tabBarIcon: ({ color }) => (
-              <Icon icon={faCircleInfo} color={color} size={20} />
-            ),
-            tabBarStyle: hideTabBar
-              ? { display: 'none' }
-              : [styles.tabBarStyle, androidTabBarBottom],
-            tabBarButton: props => (
-              <TabBarButton
-                {...props}
-                onPress={() => {
-                  setIsDID(false);
-                  bottomNavigation.navigate('Services');
-                }}
-              />
-            ),
-          };
+        options={{
+          headerShown: false,
+          tabBarLabel: t('other.services'),
+          tabBarIcon: ({ color }) => (
+            <Icon icon={faCircleInfo} color={color} size={20} />
+          ),
+          tabBarButton: props => (
+            <TabBarButton
+              {...props}
+              onPress={() => {
+                setIsDID(false);
+                bottomNavigation.navigate('Services');
+              }}
+            />
+          ),
         }}
       />
       <TabNavigator.Screen

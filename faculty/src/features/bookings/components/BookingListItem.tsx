@@ -11,7 +11,6 @@ import {
 
 import { useBookings } from '../hooks/useBookings';
 import { formatBookingTitle } from '../utils/bookingStatus';
-import { bookingsColors } from '../utils/bookingsTheme';
 import { BookingStatusBadge } from './BookingStatusBadge';
 
 interface Props {
@@ -33,7 +32,13 @@ export const BookingListItem = ({
       title={formatBookingTitle(booking.title, t)}
       titleStyle={styles.listTitle}
       subtitle={
-        <ScreenDateTime date={booking.date} time={booking.time} inListItem />
+        <View style={styles.dateTime}>
+          <ScreenDateTime
+            date={booking.date}
+            time={booking.time}
+            inListItem
+          />
+        </View>
       }
       onPress={onPress}
       trailingItem={
@@ -47,7 +52,6 @@ export const BookingListItem = ({
 };
 
 const createStyles = ({
-  dark,
   colors,
   fontFamilies,
   fontSizes,
@@ -61,12 +65,17 @@ const createStyles = ({
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.semibold,
       lineHeight: 20,
-      color: dark ? colors.title : bookingsColors.textPrimary,
+      color: colors.title,
       marginBottom: spacing[1],
     },
     trailing: {
       flexDirection: 'row',
       alignItems: 'center',
       gap: spacing[1],
+    },
+    dateTime: {
+      alignSelf: 'flex-start',
+      transform: [{ scale: 0.85 }],
+      transformOrigin: 'left center',
     },
   });

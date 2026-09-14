@@ -11,6 +11,7 @@ import {
   Section,
   Text,
   Theme,
+  useHideTabs,
   useStylesheet,
   useTheme,
 } from '@polito/lib/ui';
@@ -19,13 +20,11 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { ProfileStackParamList } from '../../../screens/Servizi/ServiceNavigator';
 import { SelectMenuField } from '../components/SelectMenuField';
-import { useBookingsBlurHeader } from '../hooks/useBookingsBlurHeader';
 import { useGetInterdepartmentalSpaces } from '../hooks/useInterdepartmentalSpaces';
-import { bookingsColors } from '../utils/bookingsTheme';
 
 export const FacilitySpaceCalendarScreen = () => {
   const { t } = useTranslation();
-  const { dark, colors } = useTheme();
+  const { colors } = useTheme();
   const styles = useStylesheet(createStyles);
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileStackParamList>>();
@@ -35,10 +34,7 @@ export const FacilitySpaceCalendarScreen = () => {
   const [location, setLocation] = useState<string>();
   const [selectedSpaceId, setSelectedSpaceId] = useState<string>();
 
-  useBookingsBlurHeader({
-    title: t('bookingsScreen.facilitySpaceCalendar'),
-    headerBackButtonDisplayMode: 'minimal',
-  });
+  useHideTabs();
 
   useEffect(() => {
     if (!filter) return;
@@ -83,7 +79,7 @@ export const FacilitySpaceCalendarScreen = () => {
     }
   }, [filteredRooms, selectedSpaceId]);
 
-  const radioColor = dark ? colors.secondaryText : bookingsColors.onSurface;
+  const radioColor = colors.secondaryText;
 
   const renderRadio = (selected: boolean) => (
     <View style={[styles.radio, { borderColor: radioColor }]}>
@@ -181,8 +177,8 @@ export const FacilitySpaceCalendarScreen = () => {
 };
 
 const createStyles = ({
-  dark,
   colors,
+  palettes,
   fontFamilies,
   fontSizes,
   fontWeights,
@@ -219,7 +215,7 @@ const createStyles = ({
       fontSize: fontSizes.md,
       fontWeight: fontWeights.bold,
       lineHeight: 20,
-      color: dark ? colors.heading : bookingsColors.textHeading,
+      color: colors.heading,
       paddingHorizontal: spacing[4],
     },
     listItem: {
@@ -237,7 +233,7 @@ const createStyles = ({
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.semibold,
       lineHeight: 20,
-      color: dark ? colors.title : bookingsColors.textPrimary,
+      color: colors.title,
       marginBottom: 0,
     },
     listSubtitle: {
@@ -246,7 +242,7 @@ const createStyles = ({
       fontSize: fontSizes.xs,
       fontWeight: fontWeights.medium,
       lineHeight: 16,
-      color: dark ? colors.prose : bookingsColors.textSubtitle,
+      color: colors.prose,
     },
     radio: {
       width: 16,
@@ -275,12 +271,12 @@ const createStyles = ({
       alignItems: 'center',
       width: '100%',
       borderRadius: shapes.lg,
-      backgroundColor: bookingsColors.linkBlue,
-      borderColor: bookingsColors.linkBlue,
+      backgroundColor: palettes.navy[500],
+      borderColor: palettes.navy[500],
       elevation: 0,
     },
     ctaButtonText: {
-      color: bookingsColors.onButtonPrimary,
+      color: palettes.gray[50],
       textAlign: 'center',
       fontFamily: fontFamilies.heading,
       fontSize: fontSizes.sm,

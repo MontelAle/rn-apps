@@ -7,9 +7,8 @@ import {
   Theme,
   TouchableCard,
   useStylesheet,
+  useTheme,
 } from '@polito/lib/ui';
-
-import { bookingsColors } from '../utils/bookingsTheme';
 
 interface Props {
   label: string;
@@ -18,6 +17,7 @@ interface Props {
 }
 
 export const BookingActionCard = ({ label, title, onPress }: Props) => {
+  const { palettes } = useTheme();
   const styles = useStylesheet(createStyles);
 
   return (
@@ -38,11 +38,7 @@ export const BookingActionCard = ({ label, title, onPress }: Props) => {
       </View>
       <View style={styles.buttonRow}>
         <View style={styles.iconButton}>
-          <Icon
-            icon={faPaperPlane}
-            size={12}
-            color={bookingsColors.buttonPrimary}
-          />
+          <Icon icon={faPaperPlane} size={12} color={palettes.navy[500]} />
         </View>
       </View>
     </TouchableCard>
@@ -52,6 +48,7 @@ export const BookingActionCard = ({ label, title, onPress }: Props) => {
 const createStyles = ({
   colors,
   dark,
+  palettes,
   fontFamilies,
   fontSizes,
   fontWeights,
@@ -69,9 +66,7 @@ const createStyles = ({
       marginVertical: 0,
       padding: spacing[2],
       borderRadius: shapes.lg,
-      backgroundColor: dark
-        ? colors.surfaceDark
-        : bookingsColors.cardSurfaceMuted,
+      backgroundColor: dark ? colors.surface : palettes.gray[300],
       elevation: 0,
     },
     textContainer: {
@@ -83,14 +78,14 @@ const createStyles = ({
       fontSize: fontSizes.xs,
       fontWeight: fontWeights.normal,
       lineHeight: 18,
-      color: dark ? colors.prose : bookingsColors.textPrimary,
+      color: colors.prose,
     },
     title: {
       fontFamily: fontFamilies.heading,
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.semibold,
       lineHeight: 17.5,
-      color: dark ? colors.heading : bookingsColors.textPrimary,
+      color: colors.heading,
     },
     buttonRow: {
       width: '100%',
@@ -102,10 +97,8 @@ const createStyles = ({
       paddingHorizontal: spacing[3],
       borderRadius: shapes.lg,
       borderWidth: 1,
-      borderColor: bookingsColors.buttonPrimary,
-      backgroundColor: dark
-        ? bookingsColors.buttonSecondaryBgDark
-        : bookingsColors.buttonSecondaryBg,
+      borderColor: palettes.navy[500],
+      backgroundColor: dark ? colors.surface : palettes.lightBlue[50],
       alignItems: 'center',
       justifyContent: 'center',
     },

@@ -9,7 +9,7 @@ import {
   useTheme,
 } from '@polito/lib/ui';
 
-import { bookingsColors } from '../utils/bookingsTheme';
+const TRANSPARENT = 'transparent';
 
 interface Props {
   label: string;
@@ -26,7 +26,7 @@ export const LimitedTextArea = ({
   maxLength,
   placeholder,
 }: Props) => {
-  const { dark, colors } = useTheme();
+  const { dark, colors, palettes } = useTheme();
   const styles = useStylesheet(createStyles);
   const [isFocused, setIsFocused] = useState(false);
   const remainingChars = maxLength - value.length;
@@ -59,9 +59,9 @@ export const LimitedTextArea = ({
         style={styles.field}
         inputStyle={styles.input}
         placeholderTextColor={
-          dark ? colors.secondaryText : bookingsColors.placeholder
+          dark ? colors.secondaryText : palettes.gray[400]
         }
-        selectionColor={bookingsColors.cursorOrange}
+        selectionColor={palettes.orange[500]}
       />
     </View>
   );
@@ -70,6 +70,7 @@ export const LimitedTextArea = ({
 const createStyles = ({
   dark,
   colors,
+  palettes,
   fontFamilies,
   fontSizes,
   fontWeights,
@@ -79,16 +80,16 @@ const createStyles = ({
   StyleSheet.create({
     card: {
       marginHorizontal: spacing[4],
-      backgroundColor: dark ? colors.surfaceDark : bookingsColors.cardSurface,
+      backgroundColor: dark ? colors.surfaceDark : colors.surface,
       borderRadius: shapes.lg,
       paddingHorizontal: spacing[3],
       paddingTop: spacing[2],
       paddingBottom: spacing[2],
       borderWidth: 1,
-      borderColor: bookingsColors.transparent,
+      borderColor: TRANSPARENT,
     },
     cardFocused: {
-      borderColor: bookingsColors.focusBorder,
+      borderColor: palettes.navy[300],
     },
     header: {
       flexDirection: 'row',
@@ -100,10 +101,10 @@ const createStyles = ({
       fontSize: fontSizes.md,
       fontWeight: fontWeights.medium,
       lineHeight: 24,
-      color: dark ? colors.heading : bookingsColors.textHeading,
+      color: colors.heading,
     },
     labelIdle: {
-      color: dark ? colors.secondaryText : bookingsColors.placeholder,
+      color: dark ? colors.secondaryText : palettes.gray[400],
     },
     counter: {
       fontFamily: fontFamilies.body,
@@ -112,7 +113,7 @@ const createStyles = ({
       lineHeight: 16,
     },
     counterActive: {
-      color: dark ? colors.heading : bookingsColors.textHeading,
+      color: colors.heading,
     },
     field: {
       paddingVertical: 0,
@@ -122,7 +123,7 @@ const createStyles = ({
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.normal,
       lineHeight: 20,
-      color: dark ? colors.prose : bookingsColors.textPrimary,
+      color: colors.prose,
       overflow: 'hidden',
       paddingHorizontal: 0,
       paddingVertical: 0,

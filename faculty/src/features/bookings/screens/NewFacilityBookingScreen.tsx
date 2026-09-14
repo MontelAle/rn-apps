@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import {
   faCalendar,
@@ -10,18 +10,24 @@ import {
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import {
+  IS_ANDROID,
+  IS_IOS,
+  dateFormatter,
+  formatMachineDate,
+} from '@polito/lib/core';
+import {
   CtaButton,
   Icon,
   IconButton,
-  ListItem,
   OverviewList,
   Section,
   SectionHeader,
-  Switch,
+  SwitchListItem,
   Text,
   TextButton,
   Theme,
   faSeat,
+  useHideTabs,
   useStylesheet,
   useTheme,
 } from '@polito/lib/ui';
@@ -45,13 +51,7 @@ import {
   useGetInterdepartmentalSpaceTypes,
   useUpdateSpaceEvent,
 } from '../hooks/useInterdepartmentalSpaces';
-import {
-  fromApiDate,
-  fromApiTime,
-  toApiDate,
-  toApiTime,
-} from '../utils/apiDates';
-import { bookingsColors } from '../utils/bookingsTheme';
+import { fromApiTime, toApiTime } from '../utils/apiDates';
 
 const DESCRIPTION_MAX_LENGTH = 30;
 
@@ -61,7 +61,7 @@ const buildTime = (hour: number, minute: number) => {
   return date;
 };
 
-const formatTime = (date: Date) => DateTime.fromJSDate(date).toFormat('HH:mm');
+const formatTime = dateFormatter('HH:mm');
 
 const ensureEndAfterStart = (start: Date, end: Date) => {
   if (end.getTime() > start.getTime()) {
@@ -78,6 +78,7 @@ export const NewFacilityBookingScreen = () => {
     useNavigation<NativeStackNavigationProp<ProfileStackParamList>>();
   const route =
     useRoute<RouteProp<ProfileStackParamList, 'NuovaPrenotazioneSpazio'>>();
+  useHideTabs();
   const spaceId = route.params?.spaceId;
   const eventId = route.params?.eventId;
   const { user, bookings, addBooking, updateBooking } = useBookings();
@@ -124,7 +125,7 @@ export const NewFacilityBookingScreen = () => {
   );
 
   const [selectedDate, setSelectedDate] = useState(() =>
-    editingSlot ? fromApiDate(editingSlot.startAt) : new Date(),
+    editingSlot ? fromApiTime(editingSlot.startAt) : new Date(),
   );
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [startTime, setStartTime] = useState(() =>
@@ -151,7 +152,7 @@ export const NewFacilityBookingScreen = () => {
 
   useEffect(() => {
     if (!editingSlot) return;
-    setSelectedDate(fromApiDate(editingSlot.startAt));
+    setSelectedDate(fromApiTime(editingSlot.startAt));
     setStartTime(fromApiTime(editingSlot.startAt));
     setEndTime(fromApiTime(editingSlot.endAt));
     setDescription(editingSlot.description);
@@ -162,7 +163,7 @@ export const NewFacilityBookingScreen = () => {
     );
   }, [editingSlot, eventTypes]);
 
-  const iconColor = dark ? colors.secondaryText : bookingsColors.textHeading;
+  const iconColor = colors.secondaryText;
 
   const eventTypeTitle =
     eventTypes.find(item => item.id === eventTypeId)?.title ?? '';
@@ -175,7 +176,7 @@ export const NewFacilityBookingScreen = () => {
     if (!spaceId) return;
 
     const request = {
-      eventDate: toApiDate(selectedDate),
+      eventDate: formatMachineDate(selectedDate),
       startsAt: toApiTime(startTime),
       endsAt: toApiTime(endTime),
       type: eventTypeId,
@@ -238,7 +239,7 @@ export const NewFacilityBookingScreen = () => {
 
   const openDatePicker = () => {
     setShowTimePicker(false);
-    if (Platform.OS === 'android') {
+    if (IS_ANDROID) {
       DateTimePickerAndroid.open({
         value: selectedDate,
         mode: 'date',
@@ -268,7 +269,7 @@ export const NewFacilityBookingScreen = () => {
 
   const openTimePicker = () => {
     setShowDatePicker(false);
-    if (Platform.OS === 'android') {
+    if (IS_ANDROID) {
       DateTimePickerAndroid.open({
         value: startTime,
         mode: 'time',
@@ -291,7 +292,7 @@ export const NewFacilityBookingScreen = () => {
     if (event.type === 'set' && date) {
       setSelectedDate(date);
     }
-    if (Platform.OS === 'android') {
+    if (IS_ANDROID) {
       setShowDatePicker(false);
     }
   };
@@ -324,13 +325,13 @@ export const NewFacilityBookingScreen = () => {
       headerShadowVisible: true,
       headerTransparent: false,
       headerStyle: {
-        backgroundColor: dark ? colors.background : bookingsColors.headerGray,
+        backgroundColor: dark ? colors.background : colors.headersBackground,
       },
       contentStyle: {
         backgroundColor: colors.background,
       },
       headerLeft: () =>
-        Platform.OS === 'android' ? (
+        IS_ANDROID ? (
           <IconButton
             icon={faTimes}
             size={22}
@@ -355,6 +356,7 @@ export const NewFacilityBookingScreen = () => {
     t,
     dark,
     colors.background,
+    colors.headersBackground,
     palettes.primary,
     styles.headerTitle,
     styles.closeButton,
@@ -391,7 +393,7 @@ export const NewFacilityBookingScreen = () => {
           ]}
         />
 
-        {Platform.OS === 'ios' && showDatePicker && (
+        {IS_IOS && showDatePicker && (
           <DateTimePicker
             value={selectedDate}
             mode="date"
@@ -401,7 +403,7 @@ export const NewFacilityBookingScreen = () => {
           />
         )}
 
-        {Platform.OS === 'ios' && showTimePicker && (
+        {IS_IOS && showTimePicker && (
           <View style={styles.timePickers}>
             <View style={styles.timePickerColumn}>
               <Text style={styles.timePickerLabel}>{t('other.startTime')}</Text>
@@ -454,41 +456,21 @@ export const NewFacilityBookingScreen = () => {
               onSelect={setSeats}
               iconSize={28}
             />
-            <ListItem
+            <SwitchListItem
               leadingItem={<Icon icon={faRotate} size={24} color={iconColor} />}
               title={t('bookingsScreen.recurringEvent')}
               titleStyle={styles.listTitle}
               containerStyle={styles.listItem}
-              onPress={() => setRecurringEvent(prev => !prev)}
-              trailingItem={
-                <Switch
-                  value={recurringEvent}
-                  onChange={() => setRecurringEvent(prev => !prev)}
-                  trackColor={{
-                    true: bookingsColors.iosSwitchOn,
-                    false: bookingsColors.iosSwitchOff,
-                  }}
-                  ios_backgroundColor={bookingsColors.iosSwitchOff}
-                />
-              }
+              value={recurringEvent}
+              onChange={setRecurringEvent}
             />
-            <ListItem
+            <SwitchListItem
               leadingItem={<Icon icon={faEye} size={24} color={iconColor} />}
               title={t('bookingsScreen.visibleToOthers')}
               titleStyle={styles.listTitle}
               containerStyle={styles.listItem}
-              onPress={() => setVisibleToOthers(prev => !prev)}
-              trailingItem={
-                <Switch
-                  value={visibleToOthers}
-                  onChange={() => setVisibleToOthers(prev => !prev)}
-                  trackColor={{
-                    true: bookingsColors.iosSwitchOn,
-                    false: bookingsColors.iosSwitchOff,
-                  }}
-                  ios_backgroundColor={bookingsColors.iosSwitchOff}
-                />
-              }
+              value={visibleToOthers}
+              onChange={setVisibleToOthers}
             />
           </OverviewList>
         </Section>
@@ -529,6 +511,7 @@ export const NewFacilityBookingScreen = () => {
 const createStyles = ({
   dark,
   colors,
+  palettes,
   fontFamilies,
   fontSizes,
   fontWeights,
@@ -560,7 +543,7 @@ const createStyles = ({
       lineHeight: 22,
       letterSpacing: 0,
       textAlign: 'center',
-      color: dark ? colors.title : bookingsColors.nativeLabelOnNavigator,
+      color: colors.title,
     },
     datePicker: {
       alignSelf: 'center',
@@ -578,7 +561,7 @@ const createStyles = ({
       fontFamily: fontFamilies.body,
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.medium,
-      color: dark ? colors.secondaryText : bookingsColors.textSubtitle,
+      color: colors.secondaryText,
       marginBottom: spacing[1],
     },
     section: {
@@ -592,7 +575,7 @@ const createStyles = ({
       fontSize: fontSizes.md,
       fontWeight: fontWeights.bold,
       lineHeight: 20,
-      color: dark ? colors.heading : bookingsColors.textHeading,
+      color: colors.heading,
     },
     listItem: {
       minHeight: 52,
@@ -603,7 +586,7 @@ const createStyles = ({
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.semibold,
       lineHeight: 20,
-      color: dark ? colors.title : bookingsColors.textPrimary,
+      color: colors.title,
     },
     ctaContainer: {
       paddingHorizontal: spacing[4],
@@ -618,20 +601,16 @@ const createStyles = ({
       alignItems: 'center',
       width: '100%',
       borderRadius: shapes.lg,
-      backgroundColor: bookingsColors.linkBlue,
-      borderColor: bookingsColors.linkBlue,
+      backgroundColor: palettes.navy[500],
+      borderColor: palettes.navy[500],
       elevation: 0,
     },
     ctaButtonDisabled: {
-      backgroundColor: dark
-        ? bookingsColors.buttonDisabled
-        : bookingsColors.controlsDisable,
-      borderColor: dark
-        ? bookingsColors.buttonDisabled
-        : bookingsColors.controlsDisable,
+      backgroundColor: dark ? palettes.gray[600] : palettes.gray[400],
+      borderColor: dark ? palettes.gray[600] : palettes.gray[400],
     },
     ctaButtonText: {
-      color: bookingsColors.onButtonPrimary,
+      color: palettes.gray[50],
       textAlign: 'center',
       fontFamily: fontFamilies.heading,
       fontSize: fontSizes.sm,
@@ -639,8 +618,6 @@ const createStyles = ({
       lineHeight: 20,
     },
     ctaButtonTextDisabled: {
-      color: dark
-        ? bookingsColors.nativeLabelOnNavigator
-        : bookingsColors.onButtonPrimary,
+      color: dark ? colors.title : palettes.gray[50],
     },
   });

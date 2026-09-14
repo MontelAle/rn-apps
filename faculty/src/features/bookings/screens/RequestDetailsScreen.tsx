@@ -37,9 +37,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ProfileStackParamList } from '../../../screens/Servizi/ServiceNavigator';
 import { BookingStatusBadge } from '../components/BookingStatusBadge';
 import { useBookings } from '../hooks/useBookings';
-import { useBookingsBlurHeader } from '../hooks/useBookingsBlurHeader';
 import { parseBookingDescription } from '../utils/bookingStatus';
-import { bookingsColors } from '../utils/bookingsTheme';
 
 const getActiveStatusLabel = (value: boolean, t: (key: string) => string) =>
   value ? t('common.activeStatus.true') : t('common.activeStatus.false');
@@ -48,15 +46,10 @@ export const RequestDetailsScreen = () => {
   const { t } = useTranslation();
   const styles = useStylesheet(createStyles);
   const { selectedBooking, isOwnBooking } = useBookings();
-  const { dark, colors, fontSizes } = useTheme();
+  const { colors, fontSizes } = useTheme();
   const bottomBarHeight = useBottomTabBarHeight();
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileStackParamList>>();
-
-  useBookingsBlurHeader({
-    title: t('other.requestRoom'),
-    headerBackTitle: t('common.services'),
-  });
 
   useEffect(() => {
     if (selectedBooking && !isOwnBooking(selectedBooking)) {
@@ -68,7 +61,7 @@ export const RequestDetailsScreen = () => {
 
   const isOwn = isOwnBooking(selectedBooking);
 
-  const iconColor = dark ? colors.secondaryText : bookingsColors.textHeading;
+  const iconColor = colors.secondaryText;
   const isFacilityBooking = selectedBooking.type === 2;
   const eventTypeLabel =
     selectedBooking.eventType ??
@@ -331,7 +324,6 @@ export const RequestDetailsScreen = () => {
 };
 
 const createStyles = ({
-  dark,
   colors,
   fontFamilies,
   fontSizes,
@@ -385,7 +377,7 @@ const createStyles = ({
       fontSize: fontSizes.md,
       fontWeight: fontWeights.semibold,
       lineHeight: 22,
-      color: dark ? colors.title : bookingsColors.nativeLabelOnNavigator,
+      color: colors.title,
       textAlign: 'center',
     },
     headerBlock: {
@@ -397,7 +389,7 @@ const createStyles = ({
       fontSize: fontSizes.xl,
       fontWeight: fontWeights.bold,
       lineHeight: 24,
-      color: dark ? colors.title : bookingsColors.textTitle,
+      color: colors.title,
     },
     metaRow: {
       flexDirection: 'row',
@@ -416,7 +408,7 @@ const createStyles = ({
       fontSize: fontSizes.md,
       fontWeight: fontWeights.bold,
       lineHeight: 20,
-      color: dark ? colors.heading : bookingsColors.textHeading,
+      color: colors.heading,
     },
     listItem: {
       minHeight: 52,
@@ -427,21 +419,21 @@ const createStyles = ({
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.semibold,
       lineHeight: 20,
-      color: dark ? colors.title : bookingsColors.textPrimary,
+      color: colors.title,
     },
     listSubtitle: {
       fontFamily: fontFamilies.body,
       fontSize: fontSizes.xs,
       fontWeight: fontWeights.normal,
       lineHeight: 16,
-      color: dark ? colors.prose : bookingsColors.textSubtitle,
+      color: colors.prose,
     },
     detailsText: {
       fontFamily: fontFamilies.body,
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.normal,
       lineHeight: 20,
-      color: dark ? colors.prose : bookingsColors.textPrimary,
+      color: colors.prose,
       padding: spacing[4],
     },
   });

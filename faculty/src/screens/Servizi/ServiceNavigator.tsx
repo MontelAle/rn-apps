@@ -1,7 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import { Platform, TouchableOpacity } from 'react-native';
 
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { IS_IOS } from '@polito/lib/core';
 import { useTheme, useTitlesStyles } from '@polito/lib/ui';
 import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -69,8 +71,15 @@ const CustomBackButton2 = () => {
 const Stack = createNativeStackNavigator<ProfileStackParamList>();
 
 export const ServiceNavigator = () => {
+  const { t } = useTranslation();
   const theme = useTheme();
-  const { colors } = theme;
+  const { colors, dark } = theme;
+  const bookingsHeaderStyle = {
+    backgroundColor: Platform.select({
+      ios: undefined,
+      android: dark ? colors.background : colors.headersBackground,
+    }),
+  };
 
   return (
     <Stack.Navigator
@@ -88,7 +97,6 @@ export const ServiceNavigator = () => {
         name="Persone"
         component={PersoneScreen}
         options={{
-          headerLeft: () => <CustomBackButton2 />,
           headerShown: true,
         }}
       />
@@ -116,6 +124,12 @@ export const ServiceNavigator = () => {
         component={BookingScreen}
         options={{
           headerShown: true,
+          headerTitle: t('bookingsScreen.title'),
+          headerTitleAlign: 'center',
+          headerBackTitle: t('common.services'),
+          headerTransparent: IS_IOS,
+          headerShadowVisible: true,
+          headerStyle: bookingsHeaderStyle,
         }}
       />
 
@@ -124,6 +138,12 @@ export const ServiceNavigator = () => {
         component={NewReservationScreen}
         options={{
           headerShown: true,
+          headerTitle: t('bookingsScreen.title'),
+          headerTitleAlign: 'center',
+          headerBackTitle: t('common.services'),
+          headerTransparent: IS_IOS,
+          headerShadowVisible: true,
+          headerStyle: bookingsHeaderStyle,
         }}
       />
 
@@ -157,6 +177,13 @@ export const ServiceNavigator = () => {
         options={{
           headerShown: true,
           headerLargeTitle: false,
+          headerTitle: t('bookingsScreen.facilitySpaceCalendar'),
+          headerTitleAlign: 'center',
+          headerBackTitle: '',
+          headerBackButtonDisplayMode: 'minimal',
+          headerTransparent: IS_IOS,
+          headerShadowVisible: true,
+          headerStyle: bookingsHeaderStyle,
         }}
       />
 
@@ -232,6 +259,12 @@ export const ServiceNavigator = () => {
         component={RequestDetailsScreen}
         options={{
           headerShown: true,
+          headerTitle: t('other.requestRoom'),
+          headerTitleAlign: 'center',
+          headerBackTitle: t('common.services'),
+          headerTransparent: IS_IOS,
+          headerShadowVisible: true,
+          headerStyle: bookingsHeaderStyle,
         }}
       />
 

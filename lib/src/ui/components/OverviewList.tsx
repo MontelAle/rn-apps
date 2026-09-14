@@ -21,6 +21,7 @@ type Props = PropsWithChildren<
     emptyStateCaption?: string;
     emptyStateIcon?: IconDefinition;
     emptyStateIconSize?: number;
+    emptyStateSpacing?: number;
     rounded?: boolean;
     translucent?: boolean;
   }
@@ -40,6 +41,7 @@ export const OverviewList = ({
   emptyStateCaption,
   emptyStateIcon,
   emptyStateIconSize,
+  emptyStateSpacing,
   style,
   rounded,
   ...rest
@@ -82,7 +84,7 @@ export const OverviewList = ({
             caption={emptyStateCaption}
             icon={emptyStateIcon}
             iconSize={emptyStateIconSize}
-            spacing={8}
+            spacing={emptyStateSpacing}
           />
         )
       )}

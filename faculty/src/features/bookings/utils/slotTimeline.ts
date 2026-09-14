@@ -15,7 +15,6 @@ export type TimelineEvent = {
   backgroundColor: string;
   personColor: string;
   isOwn?: boolean;
-  isPubliclyVisible?: boolean;
 };
 
 const OTHER_EVENT_COLORS = {
@@ -58,7 +57,6 @@ export const slotToTimelineEvent = (
     person: formatPersonName(slot.bookedBy),
     description: slot.description,
     isOwn,
-    isPubliclyVisible: true,
     ...(isOwn ? USER_EVENT_COLORS : OTHER_EVENT_COLORS),
   };
 };
@@ -76,5 +74,4 @@ export const slotsToTimelineEvents = (
       const start = DateTime.fromISO(slot.startAt);
       return start.hasSame(selectedDate, 'day');
     })
-    .map(slot => slotToTimelineEvent(slot, options))
-    .filter(event => event.isOwn || event.isPubliclyVisible !== false);
+    .map(slot => slotToTimelineEvent(slot, options));

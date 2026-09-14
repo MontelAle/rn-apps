@@ -4,8 +4,6 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Icon, Text, Theme, useStylesheet, useTheme } from '@polito/lib/ui';
 
-import { bookingsColors } from '../utils/bookingsTheme';
-
 interface Props {
   icon: IconDefinition;
   label: string;
@@ -25,7 +23,7 @@ export const DateTimeFieldCard = ({
   chevronSize = 14,
   cardHeight = 72,
 }: Props) => {
-  const { dark, colors } = useTheme();
+  const { dark, colors, palettes } = useTheme();
   const styles = useStylesheet(createStyles);
 
   return (
@@ -37,7 +35,7 @@ export const DateTimeFieldCard = ({
       <Icon
         icon={icon}
         size={iconSize}
-        color={dark ? colors.secondaryText : bookingsColors.controlsDisable}
+        color={dark ? colors.secondaryText : palettes.gray[400]}
       />
       <View style={styles.fieldTextBlock}>
         <Text style={styles.fieldLabel} numberOfLines={1}>
@@ -47,11 +45,7 @@ export const DateTimeFieldCard = ({
           <Text style={styles.fieldValue} numberOfLines={1}>
             {value}
           </Text>
-          <Icon
-            icon={faChevronDown}
-            size={chevronSize}
-            color={dark ? colors.prose : bookingsColors.textSubtitle}
-          />
+          <Icon icon={faChevronDown} size={chevronSize} color={colors.prose} />
         </View>
       </View>
     </Pressable>
@@ -73,7 +67,7 @@ const createStyles = ({
       flexDirection: 'row',
       alignItems: 'center',
       gap: spacing[3],
-      backgroundColor: dark ? colors.surfaceDark : bookingsColors.cardSurface,
+      backgroundColor: dark ? colors.surfaceDark : colors.surface,
       borderRadius: shapes.lg,
       paddingVertical: spacing[3],
       paddingHorizontal: spacing[4],
@@ -89,7 +83,7 @@ const createStyles = ({
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.normal,
       lineHeight: 20,
-      color: dark ? colors.secondaryText : bookingsColors.textPrimary,
+      color: colors.secondaryText,
     },
     fieldValueRow: {
       flexDirection: 'row',
@@ -102,6 +96,6 @@ const createStyles = ({
       fontSize: fontSizes.md,
       fontWeight: fontWeights.semibold,
       lineHeight: 24,
-      color: dark ? colors.prose : bookingsColors.textSubtitle,
+      color: colors.prose,
     },
   });

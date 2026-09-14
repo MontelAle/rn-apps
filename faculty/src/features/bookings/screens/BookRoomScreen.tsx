@@ -13,11 +13,10 @@ import {
 import {
   CtaButton,
   Icon,
-  ListItem,
   OverviewList,
   Section,
   SectionHeader,
-  Switch,
+  SwitchListItem,
   TextButton,
   Theme,
   useStylesheet,
@@ -30,7 +29,6 @@ import { ProfileStackParamList } from '../../../screens/Servizi/ServiceNavigator
 import { DateTimeFieldRow } from '../components/DateTimeFieldRow';
 import { LimitedTextArea } from '../components/LimitedTextArea';
 import { SelectMenuField } from '../components/SelectMenuField';
-import { bookingsColors } from '../utils/bookingsTheme';
 
 const DETAILS_MAX_LENGTH = 30;
 
@@ -51,7 +49,7 @@ export const BookRoomScreen = () => {
   const [details, setDetails] = useState('');
 
   const noPreferences = t('other.noPreferences');
-  const iconColor = dark ? colors.secondaryText : bookingsColors.textHeading;
+  const iconColor = colors.secondaryText;
 
   const deskTypes = useMemo(
     () => [
@@ -78,7 +76,7 @@ export const BookRoomScreen = () => {
       headerShadowVisible: true,
       headerTransparent: false,
       headerStyle: {
-        backgroundColor: dark ? colors.background : bookingsColors.headerGray,
+        backgroundColor: dark ? colors.background : colors.headersBackground,
       },
       contentStyle: {
         backgroundColor: colors.background,
@@ -94,7 +92,14 @@ export const BookRoomScreen = () => {
         </TextButton>
       ),
     });
-  }, [navigation, t, dark, colors.background, styles.closeButton]);
+  }, [
+    navigation,
+    t,
+    dark,
+    colors.background,
+    colors.headersBackground,
+    styles.closeButton,
+  ]);
 
   return (
     <View style={styles.screen}>
@@ -169,24 +174,15 @@ export const BookRoomScreen = () => {
               allowNoPreference
               noPreferenceLabel={noPreferences}
             />
-            <ListItem
+            <SwitchListItem
               leadingItem={
                 <Icon icon={faPlug} size={fontSizes['2xl']} color={iconColor} />
               }
               title={t('other.outlets')}
               titleStyle={styles.listTitle}
               containerStyle={styles.listItem}
-              onPress={() => setHasOutlets(prev => !prev)}
-              trailingItem={
-                <Switch
-                  value={hasOutlets}
-                  onChange={() => setHasOutlets(prev => !prev)}
-                  trackColor={{
-                    true: bookingsColors.iosSwitchOn,
-                    false: bookingsColors.iosSwitchOff,
-                  }}
-                />
-              }
+              value={hasOutlets}
+              onChange={setHasOutlets}
             />
           </OverviewList>
         </Section>
@@ -214,7 +210,6 @@ export const BookRoomScreen = () => {
 };
 
 const createStyles = ({
-  dark,
   colors,
   fontFamilies,
   fontSizes,
@@ -265,7 +260,7 @@ const createStyles = ({
       fontSize: fontSizes.md,
       fontWeight: fontWeights.bold,
       lineHeight: 20,
-      color: dark ? colors.heading : bookingsColors.textHeading,
+      color: colors.heading,
     },
     listItem: {
       minHeight: 52,
@@ -276,6 +271,6 @@ const createStyles = ({
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.semibold,
       lineHeight: 20,
-      color: dark ? colors.title : bookingsColors.textPrimary,
+      color: colors.title,
     },
   });

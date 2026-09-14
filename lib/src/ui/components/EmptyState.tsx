@@ -33,7 +33,7 @@ export const EmptyState = ({
     <Col
       accessibilityRole="text"
       accessible={true}
-      accessibilityLabel={[message, caption].filter(Boolean).join('. ')}
+      accessibilityLabel={message}
       align="center"
       style={{
         padding: _spacing[spacing as unknown as keyof Theme['spacing']],
@@ -42,21 +42,17 @@ export const EmptyState = ({
       {icon && (
         <Icon
           icon={icon}
-          color={iconColor ?? colors.tabBarInactive}
+          color={iconColor ?? colors.secondaryText}
           size={iconSize || fontSizes['3xl']}
           style={styles.icon}
         />
       )}
-      <Text
-        style={{ textAlign: 'center' }}
-        variant="secondaryText"
-        weight="semibold"
-      >
+      <Text style={{ textAlign: 'center' }} variant="secondaryText">
         {message}
       </Text>
       {caption && (
         <Text
-          style={{ textAlign: 'center', fontSize: fontSizes.sm }}
+          style={{ textAlign: 'center', fontSize: fontSizes.xs }}
           variant="secondaryText"
         >
           {caption}

@@ -15,11 +15,10 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { ProfileStackParamList } from '../../../screens/Servizi/ServiceNavigator';
-import { bookingsColors } from '../utils/bookingsTheme';
 
 export const RequestSpaceScreen = () => {
   const { t } = useTranslation();
-  const { colors } = useTheme();
+  const { colors, palettes } = useTheme();
   const styles = useStylesheet(createStyles);
   const navigation =
     useNavigation<NativeStackNavigationProp<ProfileStackParamList>>();
@@ -31,7 +30,7 @@ export const RequestSpaceScreen = () => {
       headerShadowVisible: true,
       headerTransparent: false,
       headerStyle: {
-        backgroundColor: bookingsColors.headerGray,
+        backgroundColor: colors.headersBackground,
       },
       contentStyle: {
         backgroundColor: colors.background,
@@ -39,7 +38,7 @@ export const RequestSpaceScreen = () => {
       headerLeft: () => (
         <IconButton
           icon={faChevronLeft}
-          color={bookingsColors.linkBlue}
+          color={palettes.navy[500]}
           size={22}
           adjustSpacing="left"
           noPadding
@@ -48,7 +47,13 @@ export const RequestSpaceScreen = () => {
         />
       ),
     });
-  }, [navigation, colors.background, styles.backButton]);
+  }, [
+    navigation,
+    colors.background,
+    colors.headersBackground,
+    palettes.navy,
+    styles.backButton,
+  ]);
 
   const options = [
     {
@@ -83,7 +88,6 @@ export const RequestSpaceScreen = () => {
 };
 
 const createStyles = ({
-  dark,
   colors,
   fontFamilies,
   fontSizes,
@@ -123,6 +127,6 @@ const createStyles = ({
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.semibold,
       lineHeight: 20,
-      color: dark ? colors.title : bookingsColors.textPrimary,
+      color: colors.title,
     },
   });

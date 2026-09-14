@@ -2,6 +2,7 @@ import { useLayoutEffect } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { IS_ANDROID } from '@polito/lib/core';
 import {
   IconButton,
   Text,
@@ -34,7 +35,7 @@ export const useBookingRequestsHeader = (title: string) => {
           {title}
         </Text>
       ),
-      ...(Platform.OS === 'android'
+      ...(IS_ANDROID
         ? {
             headerStyle: {
               backgroundColor: dark

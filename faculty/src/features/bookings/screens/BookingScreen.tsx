@@ -20,9 +20,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ProfileStackParamList } from '../../../screens/Servizi/ServiceNavigator';
 import { BookingListItem } from '../components/BookingListItem';
 import { useBookings } from '../hooks/useBookings';
-import { useBookingsBlurHeader } from '../hooks/useBookingsBlurHeader';
-import { getBookingDetailRoute } from '../utils/bookingStatus';
-import { bookingsColors } from '../utils/bookingsTheme';
 
 export const BookingScreen = () => {
   const { t } = useTranslation();
@@ -32,11 +29,6 @@ export const BookingScreen = () => {
   const { bookings, setSelectedBooking } = useBookings();
 
   const reservations = bookings.filter(booking => booking.type === 2);
-
-  useBookingsBlurHeader({
-    title: t('bookingsScreen.title'),
-    headerBackTitle: t('common.services'),
-  });
 
   return (
     <>
@@ -59,24 +51,20 @@ export const BookingScreen = () => {
               emptyStateCaption={t('bookingsScreen.emptyStateCaption')}
               emptyStateIcon={faTriangleExclamation}
               emptyStateIconSize={40}
+              emptyStateSpacing={8}
               style={styles.list}
             >
-              {reservations.map(booking => {
-                const detailRoute = getBookingDetailRoute(booking.type);
-
-                return (
-                  <BookingListItem
-                    key={booking.id}
-                    booking={booking}
-                    showDisclosure
-                    onPress={() => {
-                      if (!detailRoute) return;
-                      setSelectedBooking(booking);
-                      navigation.navigate(detailRoute);
-                    }}
-                  />
-                );
-              })}
+              {reservations.map(booking => (
+                <BookingListItem
+                  key={booking.id}
+                  booking={booking}
+                  showDisclosure
+                  onPress={() => {
+                    setSelectedBooking(booking);
+                    navigation.navigate('RequestDetails');
+                  }}
+                />
+              ))}
             </OverviewList>
           </Section>
           <BottomBarSpacer />
@@ -98,8 +86,8 @@ export const BookingScreen = () => {
 };
 
 const createStyles = ({
-  dark,
   colors,
+  palettes,
   fontFamilies,
   fontSizes,
   fontWeights,
@@ -121,7 +109,7 @@ const createStyles = ({
       fontSize: fontSizes.md,
       fontWeight: fontWeights.bold,
       lineHeight: 20,
-      color: dark ? colors.heading : bookingsColors.textHeading,
+      color: colors.heading,
     },
     sectionSubtitle: {
       color: colors.prose,
@@ -144,12 +132,12 @@ const createStyles = ({
       flexBasis: 0,
       width: '100%',
       borderRadius: shapes.lg,
-      backgroundColor: bookingsColors.buttonPrimary,
-      borderColor: bookingsColors.buttonPrimary,
+      backgroundColor: palettes.navy[500],
+      borderColor: palettes.navy[500],
       elevation: 0,
     },
     ctaButtonText: {
-      color: bookingsColors.onButtonPrimary,
+      color: palettes.gray[50],
       textAlign: 'center',
       fontFamily: fontFamilies.heading,
       fontSize: fontSizes.sm,

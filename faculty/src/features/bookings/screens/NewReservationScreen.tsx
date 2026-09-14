@@ -25,9 +25,6 @@ import { ProfileStackParamList } from '../../../screens/Servizi/ServiceNavigator
 import { BookingActionCard } from '../components/BookingActionCard';
 import { BookingListItem } from '../components/BookingListItem';
 import { useBookings } from '../hooks/useBookings';
-import { useBookingsBlurHeader } from '../hooks/useBookingsBlurHeader';
-import { getBookingDetailRoute } from '../utils/bookingStatus';
-import { bookingsColors } from '../utils/bookingsTheme';
 
 const VISIBLE_COUNT = 3;
 
@@ -51,11 +48,6 @@ export const NewReservationScreen = () => {
     0,
     reservations.length - VISIBLE_COUNT,
   );
-
-  useBookingsBlurHeader({
-    title: t('bookingsScreen.title'),
-    headerBackTitle: t('common.services'),
-  });
 
   const renderShowOthers = (
     moreCount: number,
@@ -116,24 +108,20 @@ export const NewReservationScreen = () => {
             emptyStateCaption={t('bookingsScreen.emptyStateCaption')}
             emptyStateIcon={faTriangleExclamation}
             emptyStateIconSize={40}
+            emptyStateSpacing={8}
             style={styles.list}
           >
-            {visibleReservations.map(booking => {
-              const detailRoute = getBookingDetailRoute(booking.type);
-
-              return (
-                <BookingListItem
-                  key={booking.id}
-                  booking={booking}
-                  showDisclosure
-                  onPress={() => {
-                    if (!detailRoute) return;
-                    setSelectedBooking(booking);
-                    navigation.navigate(detailRoute);
-                  }}
-                />
-              );
-            })}
+            {visibleReservations.map(booking => (
+              <BookingListItem
+                key={booking.id}
+                booking={booking}
+                showDisclosure
+                onPress={() => {
+                  setSelectedBooking(booking);
+                  navigation.navigate('RequestDetails');
+                }}
+              />
+            ))}
           </OverviewList>
         </Section>
 
@@ -149,6 +137,7 @@ export const NewReservationScreen = () => {
             emptyStateCaption={t('bookingsScreen.emptyEventsCaption')}
             emptyStateIcon={faTriangleExclamation}
             emptyStateIconSize={40}
+            emptyStateSpacing={8}
             style={styles.list}
           />
         </Section>
@@ -160,7 +149,6 @@ export const NewReservationScreen = () => {
 };
 
 const createStyles = ({
-  dark,
   colors,
   fontFamilies,
   fontSizes,
@@ -190,7 +178,7 @@ const createStyles = ({
       fontSize: fontSizes.md,
       fontWeight: fontWeights.bold,
       lineHeight: 20,
-      color: dark ? colors.heading : bookingsColors.textHeading,
+      color: colors.heading,
     },
     showOthers: {
       marginEnd: spacing[1],

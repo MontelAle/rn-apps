@@ -12,8 +12,6 @@ import { Text, Theme, useStylesheet } from '@polito/lib/ui';
 
 import { DateTime } from 'luxon';
 
-import { bookingsColors } from '../utils/bookingsTheme';
-
 export const DATE_SELECTOR_CHIP_SIZE = 48;
 export const DATE_SELECTOR_CHIP_GAP = 12;
 export const DATE_SELECTOR_HORIZONTAL_PADDING = 18;
@@ -90,7 +88,13 @@ export const DateSelector = forwardRef<ScrollView, Props>(
 
 DateSelector.displayName = 'DateSelector';
 
-const createStyles = ({ dark, colors, fontFamilies, fontWeights }: Theme) =>
+const createStyles = ({
+  dark,
+  colors,
+  palettes,
+  fontFamilies,
+  fontWeights,
+}: Theme) =>
   StyleSheet.create({
     scroll: {
       flexGrow: 0,
@@ -112,12 +116,12 @@ const createStyles = ({ dark, colors, fontFamilies, fontWeights }: Theme) =>
       alignItems: 'center',
       borderRadius: 12,
       borderWidth: 1,
-      borderColor: dark ? colors.divider : bookingsColors.divider,
-      backgroundColor: dark ? colors.surface : bookingsColors.surface,
+      borderColor: dark ? colors.divider : palettes.gray[200],
+      backgroundColor: colors.surface,
     },
     chipSelected: {
-      backgroundColor: dark ? colors.surface : bookingsColors.tagNavyBg,
-      borderColor: bookingsColors.tagNavyBorder,
+      backgroundColor: dark ? colors.surface : palettes.lightBlue[100],
+      borderColor: palettes.lightBlue[300],
     },
     weekday: {
       fontFamily: fontFamilies.title,
@@ -127,24 +131,24 @@ const createStyles = ({ dark, colors, fontFamilies, fontWeights }: Theme) =>
       letterSpacing: -0.5,
       textAlign: 'center',
       textTransform: 'uppercase',
-      color: dark ? colors.secondaryText : bookingsColors.textShort,
+      color: colors.secondaryText,
       marginTop: 2,
     },
     weekdaySelected: {
       fontFamily: fontFamilies.heading,
       fontWeight: fontWeights.semibold,
-      color: bookingsColors.linkBlue,
+      color: palettes.navy[500],
     },
     number: {
       fontFamily: fontFamilies.title,
       fontSize: 18,
       fontWeight: fontWeights.medium,
       textAlign: 'center',
-      color: dark ? colors.title : bookingsColors.textSubtitle,
+      color: colors.title,
     },
     numberSelected: {
       fontFamily: fontFamilies.heading,
       fontWeight: fontWeights.semibold,
-      color: bookingsColors.linkBlue,
+      color: palettes.navy[500],
     },
   });

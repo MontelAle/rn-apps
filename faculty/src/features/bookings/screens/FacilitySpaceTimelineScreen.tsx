@@ -1,4 +1,11 @@
-import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Platform,
@@ -15,6 +22,8 @@ import {
   CtaButton,
   Text,
   Theme,
+  displayTabBar,
+  hideTabBar,
   useStylesheet,
   useTheme,
 } from '@polito/lib/ui';
@@ -29,12 +38,10 @@ import {
   DateSelector,
 } from '../components/DateSelector';
 import { useBookings } from '../hooks/useBookings';
-import { AndroidBackButton } from '../hooks/useBookingsBlurHeader';
 import {
   useGetInterdepartmentalSpace,
   useGetInterdepartmentalSpaceTypes,
 } from '../hooks/useInterdepartmentalSpaces';
-import { bookingsColors } from '../utils/bookingsTheme';
 import { TimelineEvent, slotsToTimelineEvents } from '../utils/slotTimeline';
 
 const HOUR_HEIGHT = 64;
@@ -125,6 +132,12 @@ export const FacilitySpaceTimelineScreen = () => {
   const daysScrollRef = useRef<ScrollView>(null);
   const { width: windowWidth } = useWindowDimensions();
 
+  useEffect(() => {
+    const rootNav = navigation.getParent()!;
+    hideTabBar(rootNav);
+    return () => displayTabBar(rootNav);
+  }, [navigation]);
+
   const typeLabels = useMemo(
     () =>
       Object.fromEntries((spaceTypes ?? []).map(item => [item.id, item.name])),
@@ -198,11 +211,6 @@ export const FacilitySpaceTimelineScreen = () => {
           android: dark ? colors.background : colors.surface,
         }),
       },
-      ...(Platform.OS === 'android'
-        ? {
-            headerLeft: () => <AndroidBackButton displayMode="minimal" />,
-          }
-        : {}),
     });
   }, [
     navigation,
@@ -356,6 +364,7 @@ export const FacilitySpaceTimelineScreen = () => {
 const createStyles = ({
   dark,
   colors,
+  palettes,
   fontFamilies,
   fontSizes,
   fontWeights,
@@ -373,7 +382,7 @@ const createStyles = ({
       fontWeight: fontWeights.semibold,
       lineHeight: 22,
       letterSpacing: 0,
-      color: dark ? colors.title : bookingsColors.nativeLabelOnNavigator,
+      color: colors.title,
       textAlign: 'center',
     },
     headerDivider: {
@@ -436,7 +445,7 @@ const createStyles = ({
       fontWeight: fontWeights.normal,
       lineHeight: 16,
       textAlign: 'center',
-      color: dark ? colors.title : bookingsColors.textPrimary,
+      color: colors.title,
     },
     hourFrame: {
       flexGrow: 1,
@@ -444,14 +453,14 @@ const createStyles = ({
       flexBasis: 0,
       alignSelf: 'stretch',
       borderLeftWidth: 0.5,
-      borderLeftColor: dark ? colors.divider : bookingsColors.gray300,
+      borderLeftColor: colors.divider,
     },
     hourLine: {
       flexGrow: 1,
       flexShrink: 1,
       flexBasis: 0,
       height: StyleSheet.hairlineWidth,
-      backgroundColor: dark ? colors.divider : bookingsColors.gray300,
+      backgroundColor: colors.divider,
     },
     eventCard: {
       position: 'absolute',
@@ -479,7 +488,7 @@ const createStyles = ({
       fontWeight: fontWeights.normal,
       lineHeight: 19,
       letterSpacing: 0.12,
-      color: bookingsColors.nativeLabelOnNavigator,
+      color: palettes.gray[800],
     },
     eventCategory: {
       flexShrink: 1,
@@ -488,7 +497,7 @@ const createStyles = ({
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.semibold,
       lineHeight: 20,
-      color: bookingsColors.textPrimary,
+      color: palettes.gray[800],
     },
     eventPerson: {
       fontFamily: fontFamilies.heading,
@@ -504,7 +513,7 @@ const createStyles = ({
       fontWeight: fontWeights.normal,
       lineHeight: 19,
       letterSpacing: 0.12,
-      color: bookingsColors.textPrimary,
+      color: palettes.gray[800],
     },
     ctaFade: {
       position: 'absolute',
@@ -526,12 +535,12 @@ const createStyles = ({
       alignItems: 'center',
       width: '100%',
       borderRadius: shapes.lg,
-      backgroundColor: bookingsColors.linkBlue,
-      borderColor: bookingsColors.linkBlue,
+      backgroundColor: palettes.navy[500],
+      borderColor: palettes.navy[500],
       elevation: 0,
     },
     ctaButtonText: {
-      color: bookingsColors.onButtonPrimary,
+      color: palettes.gray[50],
       textAlign: 'center',
       fontFamily: fontFamilies.heading,
       fontSize: fontSizes.sm,

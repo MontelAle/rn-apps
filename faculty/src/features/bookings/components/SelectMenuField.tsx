@@ -11,8 +11,6 @@ import {
   useTheme,
 } from '@polito/lib/ui';
 
-import { bookingsColors } from '../utils/bookingsTheme';
-
 export const NO_PREFERENCE = '__none__';
 
 export type MenuOption = { id: string; title: string };
@@ -44,10 +42,8 @@ export const SelectMenuField = ({
   inverted = false,
   containerStyle,
 }: Props) => {
-  const { dark, colors, fontSizes } = useTheme();
+  const { colors, fontSizes } = useTheme();
   const styles = useStylesheet(createStyles);
-  const iconColor = dark ? colors.secondaryText : bookingsColors.textHeading;
-  const resolvedIconSize = iconSize ?? fontSizes['2xl'];
   const displayValue =
     options.find(option => option.id === value)?.title ?? value;
 
@@ -78,7 +74,11 @@ export const SelectMenuField = ({
         isAction
         inverted={inverted}
         leadingItem={
-          <Icon icon={icon} size={resolvedIconSize} color={iconColor} />
+          <Icon
+            icon={icon}
+            size={iconSize ?? fontSizes['2xl']}
+            color={colors.secondaryText}
+          />
         }
         title={primaryText}
         titleStyle={inverted ? styles.filterValue : styles.listTitle}
@@ -95,7 +95,6 @@ export const SelectMenuField = ({
 };
 
 const createStyles = ({
-  dark,
   colors,
   fontFamilies,
   fontSizes,
@@ -116,14 +115,14 @@ const createStyles = ({
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.semibold,
       lineHeight: 20,
-      color: dark ? colors.title : bookingsColors.textPrimary,
+      color: colors.title,
     },
     listSubtitle: {
       fontFamily: fontFamilies.body,
       fontSize: fontSizes.xs,
       fontWeight: fontWeights.normal,
       lineHeight: 16,
-      color: dark ? colors.prose : bookingsColors.textSubtitle,
+      color: colors.prose,
     },
     filterLabel: {
       overflow: 'hidden',
@@ -131,7 +130,7 @@ const createStyles = ({
       fontSize: fontSizes.xs,
       fontWeight: fontWeights.medium,
       lineHeight: 16,
-      color: dark ? colors.prose : bookingsColors.textSubtitle,
+      color: colors.prose,
     },
     filterValue: {
       flex: 0,
@@ -139,6 +138,6 @@ const createStyles = ({
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.semibold,
       lineHeight: 20,
-      color: dark ? colors.title : bookingsColors.textPrimary,
+      color: colors.title,
     },
   });
