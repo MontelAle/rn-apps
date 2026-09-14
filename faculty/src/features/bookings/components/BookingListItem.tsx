@@ -33,11 +33,7 @@ export const BookingListItem = ({
       titleStyle={styles.listTitle}
       subtitle={
         <View style={styles.dateTime}>
-          <ScreenDateTime
-            date={booking.date}
-            time={booking.time}
-            inListItem
-          />
+          <ScreenDateTime date={booking.date} time={booking.time} inListItem />
         </View>
       }
       onPress={onPress}

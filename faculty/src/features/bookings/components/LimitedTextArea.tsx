@@ -58,9 +58,7 @@ export const LimitedTextArea = ({
         accessibilityLabel={label}
         style={styles.field}
         inputStyle={styles.input}
-        placeholderTextColor={
-          dark ? colors.secondaryText : palettes.gray[400]
-        }
+        placeholderTextColor={dark ? colors.secondaryText : palettes.gray[400]}
         selectionColor={palettes.orange[500]}
       />
     </View>

@@ -29,10 +29,7 @@ import {
   BottomTabNavigationProp,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import {
-  NavigatorScreenParams,
-  useNavigation,
-} from '@react-navigation/native';
+import { NavigatorScreenParams, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { ProfileNavigator } from '../../screens/Profile/ProfileNavigator';
