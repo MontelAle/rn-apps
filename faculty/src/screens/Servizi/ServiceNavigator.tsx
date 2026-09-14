@@ -8,15 +8,12 @@ import { useTheme, useTitlesStyles } from '@polito/lib/ui';
 import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { BookRoomScreen } from '../../features/bookings/screens/BookRoomScreen';
-import { BookingRequestsScreen } from '../../features/bookings/screens/BookingRequestsScreen';
 import { BookingScreen } from '../../features/bookings/screens/BookingScreen';
 import { FacilitySpaceCalendarScreen } from '../../features/bookings/screens/FacilitySpaceCalendarScreen';
 import { FacilitySpaceTimelineScreen } from '../../features/bookings/screens/FacilitySpaceTimelineScreen';
 import { NewFacilityBookingScreen } from '../../features/bookings/screens/NewFacilityBookingScreen';
 import { NewReservationScreen } from '../../features/bookings/screens/NewReservationScreen';
 import { RequestDetailsScreen } from '../../features/bookings/screens/RequestDetailsScreen';
-import { RequestSpaceScreen } from '../../features/bookings/screens/RequestSpaceScreen';
 import { ContactScreen } from './ContactScreen';
 import { DigitalSignatureScreen } from './DigitalSignatureScreen';
 import { EmergencyDetails } from './EmergencyDetails';
@@ -36,13 +33,9 @@ export type ProfileStackParamList = {
   Supporto: undefined;
   Prenotazione: undefined;
   NuovaPrenotazione: undefined;
-  RichiediSpazio: undefined;
   CalendarioSpaziStrutture: undefined;
   VistaCalendarioSpazio: { spaceId: string };
   NuovaPrenotazioneSpazio: { spaceId: string; eventId?: string } | undefined;
-  PrenotaSpaziStrutture: undefined;
-  PrenotaSpaziEventi: undefined;
-  PrenotaAulaForm: undefined;
   DigitalSignature: undefined;
   RequestDetails: undefined;
   SignatureScreen: undefined;
@@ -148,30 +141,6 @@ export const ServiceNavigator = () => {
       />
 
       <Stack.Screen
-        name="RichiediSpazio"
-        component={RequestSpaceScreen}
-        options={{
-          presentation: Platform.OS === 'ios' ? 'formSheet' : 'modal',
-          ...(Platform.OS === 'ios'
-            ? {
-                sheetAllowedDetents: [1],
-                sheetGrabberVisible: true,
-                sheetCornerRadius: 12,
-              }
-            : {}),
-          headerShown: true,
-          headerLargeTitle: false,
-          headerTitle: '',
-          headerBackButtonDisplayMode: 'minimal',
-          headerShadowVisible: true,
-          headerTransparent: false,
-          contentStyle: {
-            backgroundColor: theme.colors.background,
-          },
-        }}
-      />
-
-      <Stack.Screen
         name="CalendarioSpaziStrutture"
         component={FacilitySpaceCalendarScreen}
         options={{
@@ -201,38 +170,6 @@ export const ServiceNavigator = () => {
         component={NewFacilityBookingScreen}
         options={{
           presentation: 'modal',
-          headerShown: true,
-          headerLargeTitle: false,
-          headerTitle: '',
-          headerBackButtonDisplayMode: 'minimal',
-          headerShadowVisible: true,
-          headerTransparent: false,
-          contentStyle: {
-            backgroundColor: theme.colors.background,
-          },
-        }}
-      />
-
-      <Stack.Screen
-        name="PrenotaSpaziEventi"
-        component={BookingRequestsScreen}
-        options={{
-          headerShown: true,
-        }}
-      />
-
-      <Stack.Screen
-        name="PrenotaSpaziStrutture"
-        component={BookingRequestsScreen}
-        options={{
-          headerShown: true,
-        }}
-      />
-
-      <Stack.Screen
-        name="PrenotaAulaForm"
-        component={BookRoomScreen}
-        options={{
           headerShown: true,
           headerLargeTitle: false,
           headerTitle: '',
