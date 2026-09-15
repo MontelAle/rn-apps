@@ -26,10 +26,11 @@ Both `students/` and `faculty/` have their own jest.config.js and jest.setup.ts.
 
 - `configure({ asyncUtilTimeout: 5000 })`: the app takes a while to boot, so `findBy` waits up to 5 seconds.
 - **React Query timers**: we `unref` React Query timers so pending refetches don't keep jest alive after the tests end.
-- **`notifyManager.setScheduler(queueMicrotask)`**: React Query delivers cache updates to components from a `setTimeout(0)`. That update can land outside `act`. With a microtask the update stays in the same tick as the change that caused it. This way it's always covered.
+- **`notifyManager.setScheduler(queueMicrotask)`**: React Query delivers cache updates to components from a `setTimeout(0)`. That update can land outside `act`. With a microtask the update stays in the same tick as the change that caused it. This way it's covered by the RNTL call.
 - **Imported mocks**: libraries that ship their own jest mock (netinfo, localize, permissions, device info, async storage, safe area). We just wire them up.
 - **Manual mocks**: libraries that don't ship a mock. These are minimal and only cover what the app calls during our tests.
-- **App specific mocks**: `Grid` from lib (weird barrel import issue) and `initSentry` / `Sentry` from `@polito/lib/core`, so `App.tsx` runs without Sentry.
+- **App specific mocks**:
+  `Grid` from lib (layout issue) and `initSentry` / `Sentry` from `@polito/lib/core`, so `App.tsx` runs without Sentry.
 - **Hooks**: before each test we reset the keychain mock and AsyncStorage. The MSW server starts once per file with `onUnhandledRequest: 'error'` and handlers are reset after each test.
 
 ### Maintaining manual mocks

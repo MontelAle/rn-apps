@@ -109,7 +109,7 @@ jest.mock('react-native-override-color-scheme', () => ({
   getScheme: jest.fn(() => null),
 }));
 
-// weird mock due to barrel imports inside of lib ui itself
+// lib Grid layout mock
 jest.mock('../lib/src/ui/components/Grid', () => ({
   ...jest.requireActual('../lib/src/ui/components/Grid'),
   Grid: ({ children }: { children: React.ReactNode }) => children,
