@@ -1,7 +1,5 @@
 import 'react-native-gesture-handler/jestSetup';
 
-import { act } from 'react';
-
 import { notifyManager, timeoutManager } from '@tanstack/react-query';
 import { configure } from '@testing-library/react-native';
 
@@ -23,17 +21,9 @@ timeoutManager.setTimeoutProvider({
 });
 
 // react-query delivers cache updates to components from a setTimeout(0).
-// Wrap in act so React doesn't complain. Only when Act Environment
-notifyManager.setNotifyFunction(cb => {
-  if (
-    (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean })
-      .IS_REACT_ACT_ENVIRONMENT
-  ) {
-    act(cb);
-  } else {
-    cb();
-  }
-});
+// Using microtask we keep the update in the same tick as the change that caused it
+// and we avoid problems related to act.
+notifyManager.setScheduler(queueMicrotask);
 
 // --- imported mocks
 // some libraries require instead their mocks be
