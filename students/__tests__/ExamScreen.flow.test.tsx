@@ -28,7 +28,7 @@ describe('Exam flow: list, detail, and booking', () => {
   it('pressing an exam navigates to ExamScreen with course name and type', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText(AVAILABLE_EXAM.courseName));
+    await fireEvent.press(await screen.findByText(AVAILABLE_EXAM.courseName));
 
     expect(
       await screen.findByText('System and device programming (AA-ZZ)'),
@@ -43,11 +43,11 @@ describe('Exam flow: list, detail, and booking', () => {
 
     await render(<App />);
 
-    fireEvent.press(await screen.findByText(AVAILABLE_EXAM.courseName));
+    await fireEvent.press(await screen.findByText(AVAILABLE_EXAM.courseName));
 
     await screen.findByText(AVAILABLE_EXAM.type);
 
-    fireEvent.press(await screen.findByText('Book exam'));
+    await fireEvent.press(await screen.findByText('Book exam'));
 
     await screen.findByText(AVAILABLE_EXAM.courseName);
   });

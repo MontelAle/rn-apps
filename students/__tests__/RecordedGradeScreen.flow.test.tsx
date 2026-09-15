@@ -25,25 +25,31 @@ describe('Recorded grade detail flow: Teaching, Grades, RecordedGradeScreen', ()
 
   it('pressing the transcript card shows the recorded grade in the list', async () => {
     await render(<App />);
-    fireEvent.press(await screen.findByText('Weighted average of grades'));
+    await fireEvent.press(
+      await screen.findByText('Weighted average of grades'),
+    );
 
     expect(await screen.findByText('Operating Systems')).toBeOnTheScreen();
   });
 
   it('pressing a recorded grade navigates to RecordedGradeScreen and shows the staff section', async () => {
     await render(<App />);
-    fireEvent.press(await screen.findByText('Weighted average of grades'));
+    await fireEvent.press(
+      await screen.findByText('Weighted average of grades'),
+    );
 
-    fireEvent.press(await screen.findByText('Operating Systems'));
+    await fireEvent.press(await screen.findByText('Operating Systems'));
 
     expect(await screen.findByText('Staff')).toBeOnTheScreen();
   });
 
   it('pressing a recorded grade shows the grade value on the detail screen', async () => {
     await render(<App />);
-    fireEvent.press(await screen.findByText('Weighted average of grades'));
+    await fireEvent.press(
+      await screen.findByText('Weighted average of grades'),
+    );
 
-    fireEvent.press(await screen.findByText('Operating Systems'));
+    await fireEvent.press(await screen.findByText('Operating Systems'));
 
     expect(await screen.findByText('Staff')).toBeOnTheScreen();
     expect(screen.getByText('28')).toBeOnTheScreen();

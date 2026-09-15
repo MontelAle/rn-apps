@@ -17,7 +17,7 @@ describe('Messages flow: Profile, Messages', () => {
   it('navigating to the Profile tab shows the Messages entry', async () => {
     await render(<App />);
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByRole('button', { name: /Profile, tab/ }),
     );
 
@@ -27,10 +27,10 @@ describe('Messages flow: Profile, Messages', () => {
   it('pressing Messages navigates to MessagesScreen with empty state', async () => {
     await render(<App />);
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByRole('button', { name: /Profile, tab/ }),
     );
-    fireEvent.press(await screen.findByText('Messages archive'));
+    await fireEvent.press(await screen.findByText('Messages archive'));
 
     expect(await screen.findByText('You have no messages')).toBeOnTheScreen();
   });
@@ -42,10 +42,10 @@ describe('Messages flow: Profile, Messages', () => {
 
     await render(<App />);
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByRole('button', { name: /Profile, tab/ }),
     );
-    fireEvent.press(await screen.findByText('Messages archive'));
+    await fireEvent.press(await screen.findByText('Messages archive'));
 
     expect(
       await screen.findByText('Welcome to Politecnico di Torino'),

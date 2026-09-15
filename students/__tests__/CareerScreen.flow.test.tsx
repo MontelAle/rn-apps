@@ -23,8 +23,10 @@ describe('Career flow: Teaching, Transcript, Career tab', () => {
   it('pressing the Career tab navigates to CareerScreen and shows the career section', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText('Weighted average of grades'));
-    fireEvent.press(await screen.findByText('Career'));
+    await fireEvent.press(
+      await screen.findByText('Weighted average of grades'),
+    );
+    await fireEvent.press(await screen.findByText('Career'));
 
     expect(await screen.findByText('Your career')).toBeOnTheScreen();
   });
@@ -32,8 +34,10 @@ describe('Career flow: Teaching, Transcript, Career tab', () => {
   it('CareerScreen shows the student weighted average from /student/career data', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText('Weighted average of grades'));
-    fireEvent.press(await screen.findByText('Career'));
+    await fireEvent.press(
+      await screen.findByText('Weighted average of grades'),
+    );
+    await fireEvent.press(await screen.findByText('Career'));
 
     await screen.findByText('Your career');
 

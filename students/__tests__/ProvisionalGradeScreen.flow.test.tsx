@@ -25,9 +25,11 @@ describe('Provisional grade flow: acceptance', () => {
   it('pressing a provisional grade navigates to ProvisionalGradeScreen', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText('Weighted average of grades'));
+    await fireEvent.press(
+      await screen.findByText('Weighted average of grades'),
+    );
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByText('System and device programming (AA-ZZ)'),
     );
 
@@ -49,9 +51,11 @@ describe('Provisional grade flow: acceptance', () => {
 
     await render(<App />);
 
-    fireEvent.press(await screen.findByText('Weighted average of grades'));
+    await fireEvent.press(
+      await screen.findByText('Weighted average of grades'),
+    );
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByText('System and device programming (AA-ZZ)'),
     );
 
@@ -63,7 +67,7 @@ describe('Provisional grade flow: acceptance', () => {
       'By requesting immediate registration, the evaluation will be recorded in your transcript and you will no longer be able to change your decision',
     );
 
-    fireEvent.press(
+    await fireEvent.press(
       screen.getByRole('button', { name: 'Request immediate registration' }),
     );
 
@@ -96,9 +100,11 @@ describe('Provisional grade flow: rejection', () => {
 
     await render(<App />);
 
-    fireEvent.press(await screen.findByText('Weighted average of grades'));
+    await fireEvent.press(
+      await screen.findByText('Weighted average of grades'),
+    );
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByText('System and device programming (AA-ZZ)'),
     );
 
@@ -110,7 +116,7 @@ describe('Provisional grade flow: rejection', () => {
       'By rejecting this evaluation you will no longer be able to change your decision',
     );
 
-    fireEvent.press(
+    await fireEvent.press(
       screen.getByRole('button', { name: /Reject the evaluation/ }),
     );
 

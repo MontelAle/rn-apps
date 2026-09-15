@@ -27,10 +27,10 @@ describe('Ticket flow: Services, Ticket, TicketsScreen, TicketScreen', () => {
   it('pressing Ticket navigates to TicketsScreen and shows an open ticket', async () => {
     await render(<App />);
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByRole('button', { name: /Services, tab/ }),
     );
-    fireEvent.press(await screen.findByText('Ticket'));
+    await fireEvent.press(await screen.findByText('Ticket'));
 
     expect(await screen.findByText('My tickets')).toBeOnTheScreen();
     expect(await screen.findByText('Library card renewal')).toBeOnTheScreen();
@@ -45,11 +45,11 @@ describe('Ticket flow: Services, Ticket, TicketsScreen, TicketScreen', () => {
 
     await render(<App />);
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByRole('button', { name: /Services, tab/ }),
     );
-    fireEvent.press(await screen.findByText('Ticket'));
-    fireEvent.press(await screen.findByText('Library card renewal'));
+    await fireEvent.press(await screen.findByText('Ticket'));
+    await fireEvent.press(await screen.findByText('Library card renewal'));
 
     expect(
       await screen.findByRole('button', { name: 'Ticket details' }),

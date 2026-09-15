@@ -23,7 +23,9 @@ describe('Agenda flow: Agenda tab, weekly lecture loads', () => {
   it('pressing the Agenda tab renders the lecture card for the week', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByRole('button', { name: /Agenda, tab/ }));
+    await fireEvent.press(
+      await screen.findByRole('button', { name: /Agenda, tab/ }),
+    );
 
     expect(
       await screen.findByText('Human Computer Interaction'),

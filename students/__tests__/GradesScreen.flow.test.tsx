@@ -23,7 +23,9 @@ describe('Transcript flow: Teaching, Grades', () => {
   it('pressing the transcript card navigates to the Grades screen', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText('Weighted average of grades'));
+    await fireEvent.press(
+      await screen.findByText('Weighted average of grades'),
+    );
 
     expect(await screen.findByText('Provisional')).toBeOnTheScreen();
     expect(screen.getByText('Recorded')).toBeOnTheScreen();
@@ -32,7 +34,9 @@ describe('Transcript flow: Teaching, Grades', () => {
   it('shows empty states when no grades are recorded', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText('Weighted average of grades'));
+    await fireEvent.press(
+      await screen.findByText('Weighted average of grades'),
+    );
 
     expect(
       await screen.findByText("You haven't taken any exams"),
@@ -60,7 +64,9 @@ describe('Transcript flow: Teaching, Grades', () => {
 
     await render(<App />);
 
-    fireEvent.press(await screen.findByText('Weighted average of grades'));
+    await fireEvent.press(
+      await screen.findByText('Weighted average of grades'),
+    );
 
     expect(await screen.findByText('Operating Systems')).toBeOnTheScreen();
   });

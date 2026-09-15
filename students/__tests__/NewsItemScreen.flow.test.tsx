@@ -30,10 +30,10 @@ describe('News flow: Services, News & Events, NewsItemScreen', () => {
   it('pressing News & Events navigates to NewsScreen and shows the news title', async () => {
     await render(<App />);
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByRole('button', { name: /Services, tab/ }),
     );
-    fireEvent.press(await screen.findByText('News & Events'));
+    await fireEvent.press(await screen.findByText('News & Events'));
 
     expect(await screen.findByText('Exam session postponed')).toBeOnTheScreen();
   });
@@ -47,11 +47,11 @@ describe('News flow: Services, News & Events, NewsItemScreen', () => {
 
     await render(<App />);
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByRole('button', { name: /Services, tab/ }),
     );
-    fireEvent.press(await screen.findByText('News & Events'));
-    fireEvent.press(await screen.findByText('Exam session postponed'));
+    await fireEvent.press(await screen.findByText('News & Events'));
+    await fireEvent.press(await screen.findByText('Exam session postponed'));
 
     expect(
       await screen.findByRole('heading', { name: 'Exam session postponed' }),

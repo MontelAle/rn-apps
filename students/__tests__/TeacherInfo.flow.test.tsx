@@ -20,7 +20,7 @@ describe('Teacher info flow: exam detail', () => {
   it('shows the teacher name on the ExamScreen', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText(AVAILABLE_EXAM.courseName));
+    await fireEvent.press(await screen.findByText(AVAILABLE_EXAM.courseName));
 
     expect(await screen.findByText('Test Teacher')).toBeOnTheScreen();
   });
@@ -28,7 +28,7 @@ describe('Teacher info flow: exam detail', () => {
   it('labels the teacher with the Teacher subtitle', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText(AVAILABLE_EXAM.courseName));
+    await fireEvent.press(await screen.findByText(AVAILABLE_EXAM.courseName));
 
     expect(await screen.findByText('Test Teacher')).toBeOnTheScreen();
   });
@@ -59,7 +59,7 @@ describe('Teacher info flow: course staff', () => {
   it('shows the staff member name on the CourseInfoScreen', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText(WEB_APPS_II_DETAIL.name));
+    await fireEvent.press(await screen.findByText(WEB_APPS_II_DETAIL.name));
 
     expect(await screen.findByText('Test Teacher')).toBeOnTheScreen();
   });

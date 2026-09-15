@@ -19,7 +19,7 @@ describe('Profile screen flow', () => {
   it('navigating to the Profile tab shows the career degree level', async () => {
     await render(<App />);
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByRole('button', { name: /Profile, tab/ }),
     );
 
@@ -31,7 +31,7 @@ describe('Profile screen flow', () => {
   it('Profile screen has a link to the Notifications settings', async () => {
     await render(<App />);
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByRole('button', { name: /Profile, tab/ }),
     );
 
@@ -55,11 +55,11 @@ describe('Notifications preferences flow', () => {
   it('navigating to Notifications shows the preference toggles', async () => {
     await render(<App />);
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByRole('button', { name: /Profile, tab/ }),
     );
 
-    fireEvent.press(await screen.findByText('Notifications'));
+    await fireEvent.press(await screen.findByText('Notifications'));
 
     expect(await screen.findByText('Tickets')).toBeOnTheScreen();
     expect(screen.getByText('Bookings')).toBeOnTheScreen();
@@ -68,11 +68,11 @@ describe('Notifications preferences flow', () => {
   it('Notifications screen shows the Global section header', async () => {
     await render(<App />);
 
-    fireEvent.press(
+    await fireEvent.press(
       await screen.findByRole('button', { name: /Profile, tab/ }),
     );
 
-    fireEvent.press(await screen.findByText('Notifications'));
+    await fireEvent.press(await screen.findByText('Notifications'));
 
     expect(await screen.findByText('Global')).toBeOnTheScreen();
   });

@@ -29,7 +29,7 @@ describe('Exam flow: cancellation', () => {
   it('pressing a booked exam navigates to ExamScreen with exam type', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText(BOOKED_EXAM.courseName));
+    await fireEvent.press(await screen.findByText(BOOKED_EXAM.courseName));
 
     expect(await screen.findByText(BOOKED_EXAM.type)).toBeOnTheScreen();
   });
@@ -41,13 +41,13 @@ describe('Exam flow: cancellation', () => {
 
     await render(<App />);
 
-    fireEvent.press(await screen.findByText(BOOKED_EXAM.courseName));
+    await fireEvent.press(await screen.findByText(BOOKED_EXAM.courseName));
 
     await screen.findByText(BOOKED_EXAM.type);
 
     mockConfirmAlert('This action may not be undoable');
 
-    fireEvent.press(await screen.findByText('Cancel booking'));
+    await fireEvent.press(await screen.findByText('Cancel booking'));
 
     await screen.findByText(BOOKED_EXAM.courseName);
   });

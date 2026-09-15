@@ -40,7 +40,7 @@ describe('Module course flow: expand and navigate into a sub-module', () => {
       name: 'See all (4 more)',
     });
 
-    fireEvent.press(buttons[0]);
+    await fireEvent.press(buttons[0]);
 
     expect(await screen.findByText('Programming Module A')).toBeOnTheScreen();
   });
@@ -52,9 +52,9 @@ describe('Module course flow: expand and navigate into a sub-module', () => {
       name: 'See all (4 more)',
     });
 
-    fireEvent.press(buttons[0]);
+    await fireEvent.press(buttons[0]);
 
-    fireEvent.press(await screen.findByText('Programming Module A'));
+    await fireEvent.press(await screen.findByText('Programming Module A'));
 
     // CourseInfoScreen shows the module shortcode in its caption.
     expect(
@@ -84,7 +84,7 @@ describe('Tab navigation: Info, Notices, Files', () => {
   it('Info tab is active by default and shows the course shortcode', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText(WEB_APPS_II_DETAIL.name));
+    await fireEvent.press(await screen.findByText(WEB_APPS_II_DETAIL.name));
 
     expect(
       await screen.findByText(new RegExp(WEB_APPS_II_DETAIL.shortcode)),
@@ -94,10 +94,10 @@ describe('Tab navigation: Info, Notices, Files', () => {
   it('switching to the Notices tab loads notice content from the API', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText(WEB_APPS_II_DETAIL.name));
+    await fireEvent.press(await screen.findByText(WEB_APPS_II_DETAIL.name));
     await screen.findByText(new RegExp(WEB_APPS_II_DETAIL.shortcode));
 
-    fireEvent.press(screen.getByText('News'));
+    await fireEvent.press(screen.getByText('News'));
 
     // The spec notice content starts with "<p>Dear students,</p>".
     expect(await screen.findByText(/Dear students/i)).toBeOnTheScreen();
@@ -106,10 +106,10 @@ describe('Tab navigation: Info, Notices, Files', () => {
   it('switching to the Files tab renders the root directory listing', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText(WEB_APPS_II_DETAIL.name));
+    await fireEvent.press(await screen.findByText(WEB_APPS_II_DETAIL.name));
     await screen.findByText(new RegExp(WEB_APPS_II_DETAIL.shortcode));
 
-    fireEvent.press(screen.getByText('Files'));
+    await fireEvent.press(screen.getByText('Files'));
 
     // The spec files example has one root directory "videolectures" with 7 files.
     expect(await screen.findByText('videolectures')).toBeOnTheScreen();
