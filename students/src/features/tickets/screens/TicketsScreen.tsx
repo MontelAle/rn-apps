@@ -29,7 +29,10 @@ import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { onlineManager } from '@tanstack/react-query';
 
-import { useAccessibility } from '../../../core/hooks/useAccessibilty';
+import {
+  useAccessibility,
+  useAnnounceLoading,
+} from '../../../core/hooks/useAccessibilty';
 import { useNotifications } from '../../../core/hooks/useNotifications';
 import {
   getTicketStatusGroup,
@@ -107,6 +110,7 @@ export const TicketsScreen = ({ navigation }: Props) => {
   const { t } = useTranslation();
   const styles = useStylesheet(createStyles);
   const ticketsQuery = useGetTickets();
+  useAnnounceLoading(ticketsQuery.isLoading);
 
   const tickets = useMemo(
     () =>

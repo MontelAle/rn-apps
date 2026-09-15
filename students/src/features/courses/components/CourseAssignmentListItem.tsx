@@ -10,7 +10,6 @@ import { CourseAssignment } from '@polito/student-api-client';
 
 import { formatFileSize } from '~/utils/files';
 
-import { hideFromScreenReader } from '../../../core/accessibility/hideFromScreenReader';
 import { useAccessibility } from '../../../core/hooks/useAccessibilty';
 
 interface Props {
@@ -89,8 +88,12 @@ export const CourseAssignmentListItem = ({
           item.deletedAt == null
             ? Platform.select({
                 android: (
-                  <Menu>
-                    <View {...hideFromScreenReader}>
+                  <View
+                    accessible
+                    accessibilityRole="button"
+                    accessibilityLabel={t('courseAssignmentsTab.menuInfo')}
+                  >
+                    <Menu>
                       <IconButton
                         accessible={false}
                         style={{
@@ -104,8 +107,8 @@ export const CourseAssignmentListItem = ({
                           left: +spacing[2],
                         }}
                       />
-                    </View>
-                  </Menu>
+                    </Menu>
+                  </View>
                 ),
               })
             : undefined
@@ -121,6 +124,7 @@ export const CourseAssignmentListItem = ({
       fontSizes.xl,
       rest,
       accessibilityLabel,
+      t,
     ],
   );
 
