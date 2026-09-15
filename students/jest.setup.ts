@@ -1,6 +1,8 @@
 import 'react-native-gesture-handler/jestSetup';
 
-import { timeoutManager } from '@tanstack/react-query';
+import { act } from 'react';
+
+import { notifyManager, timeoutManager } from '@tanstack/react-query';
 import { configure } from '@testing-library/react-native';
 
 import { server } from './src/testing/msw/server';
@@ -20,12 +22,18 @@ timeoutManager.setTimeoutProvider({
   clearInterval: id => clearInterval(id),
 });
 
-// --- suppress console
-// Disable debug and warn to avoid pollution in the logs
-// To temporarily see them again, comment out the relevant line below.
-console.debug = () => {};
-console.warn = () => {};
-console.error = () => {};
+// react-query delivers cache updates to components from a setTimeout(0).
+// Wrap in act so React doesn't complain. Only when Act Environment
+notifyManager.setNotifyFunction(cb => {
+  if (
+    (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean })
+      .IS_REACT_ACT_ENVIRONMENT
+  ) {
+    act(cb);
+  } else {
+    cb();
+  }
+});
 
 // --- imported mocks
 // some libraries require instead their mocks be
