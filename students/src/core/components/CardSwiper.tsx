@@ -12,7 +12,6 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 
-import { useDeviceOrientation } from '@polito/lib/core';
 import {
   CtaButton,
   CtaButtonContainer,
@@ -99,8 +98,6 @@ const SlideItem = ({
   const navigation =
     useNavigation<NativeStackNavigationProp<UserStackParamList>>();
 
-  const deviceOrientation = useDeviceOrientation();
-
   const rnAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -143,7 +140,7 @@ const SlideItem = ({
           overflow: 'hidden',
           justifyContent: 'center',
         },
-        deviceOrientation === 'portrait' ? [rnAnimatedStyle] : undefined,
+        rnAnimatedStyle,
       ]}
     >
       {!item.card.isESC ? (
