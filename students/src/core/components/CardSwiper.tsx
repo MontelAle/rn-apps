@@ -164,7 +164,7 @@ const SlideItem = ({
             height={cardLength * (207 / 328)}
             cognome={item.lastname.toUpperCase()}
             nome={item.name.toUpperCase()}
-            matricola={item.username}
+            matricola={item.username.replace(/^[sS]/, '')}
             qr={item.card.ESC.details?.qrCode ?? ''}
             cardStatus={
               item.card.ESC.canBeRequested && !item.card.ESC.details
