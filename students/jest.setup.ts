@@ -8,7 +8,7 @@ import { server } from './src/testing/msw/server';
 configure({ asyncUtilTimeout: 5000 });
 
 // --- react-query timers
-// necessary to suppress on queryclient refetches
+// necessary to suppress on queryclient gc timers
 const unref = <T>(id: T): T => {
   (id as { unref?: () => void })?.unref?.();
   return id;
