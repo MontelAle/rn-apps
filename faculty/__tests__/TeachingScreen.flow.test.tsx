@@ -22,7 +22,7 @@ describe('Teaching flow: home sections and the My Courses list', () => {
   it('pressing the My Courses section header opens the full course list', async () => {
     await render(<App />);
 
-    fireEvent.press(await screen.findByText('My Courses'));
+    await fireEvent.press(await screen.findByText('My Courses'));
 
     // CoursesScreen groups the courses by academic year and shows each course
     // code, neither of which the home screen renders.

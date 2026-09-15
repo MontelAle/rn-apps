@@ -10,7 +10,7 @@ const openExamCall = async () => {
 
   // "Today" is the subtitle of the only exam call dated `Oggi`; pressing it
   // opens that call, since the subject alone also names an assigned course.
-  fireEvent.press(await screen.findByText('Today'));
+  await fireEvent.press(await screen.findByText('Today'));
 
   return screen.findByText('Exam call info');
 };
@@ -36,7 +36,7 @@ describe('Exam call flow: details and booked students', () => {
     await openExamCall();
     await screen.findByText(FIRST_STUDENT.fullName);
 
-    fireEvent.changeText(
+    await fireEvent.changeText(
       screen.getByPlaceholderText('Search by Name or ID'),
       SECOND_STUDENT.fullName.split(' ')[0],
     );

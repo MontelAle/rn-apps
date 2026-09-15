@@ -6,7 +6,7 @@ import { TEST_COURSE } from '~/testing/constants';
 const openCourse = async () => {
   await render(<App />);
 
-  fireEvent.press(await screen.findByText(TEST_COURSE.title));
+  await fireEvent.press(await screen.findByText(TEST_COURSE.title));
 
   // The Info tab is the first of the course top tabs and renders the course
   // code in its caption, so it doubles as "the course screen is up".
@@ -21,7 +21,7 @@ describe('Course flow: opening a course and browsing its tabs', () => {
   it('switching to the Notices tab lists the course notices', async () => {
     await openCourse();
 
-    fireEvent.press(screen.getByText('Notices'));
+    await fireEvent.press(screen.getByText('Notices'));
 
     // The notices tab lists each notice by its body, not its title.
     expect(
@@ -32,8 +32,8 @@ describe('Course flow: opening a course and browsing its tabs', () => {
   it('pressing a notice opens it with its visibility setting', async () => {
     await openCourse();
 
-    fireEvent.press(screen.getByText('Notices'));
-    fireEvent.press(await screen.findByText(TEST_COURSE.notice.content));
+    await fireEvent.press(screen.getByText('Notices'));
+    await fireEvent.press(await screen.findByText(TEST_COURSE.notice.content));
 
     // NoticeScreen is the first screen to render the notice's title.
     expect(await screen.findByText(TEST_COURSE.notice.title)).toBeOnTheScreen();

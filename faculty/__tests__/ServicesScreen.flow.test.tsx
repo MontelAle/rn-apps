@@ -5,7 +5,7 @@ import App from '~/App';
 const openServicesTab = async () => {
   await render(<App />);
 
-  fireEvent.press(await screen.findByText('Services'));
+  await fireEvent.press(await screen.findByText('Services'));
 
   return screen.findByText('Book Places');
 };
@@ -23,7 +23,7 @@ describe('Services flow: Services tab and the booking service', () => {
   it('pressing Book Places opens the booking options', async () => {
     await openServicesTab();
 
-    fireEvent.press(screen.getByText('Book Places'));
+    await fireEvent.press(screen.getByText('Book Places'));
 
     expect(await screen.findByText('Request room')).toBeOnTheScreen();
     expect(screen.getByText('Request events places')).toBeOnTheScreen();
