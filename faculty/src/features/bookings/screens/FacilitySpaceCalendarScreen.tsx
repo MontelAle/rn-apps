@@ -11,7 +11,6 @@ import {
   Section,
   Text,
   Theme,
-  useHideTabs,
   useStylesheet,
   useTheme,
 } from '@polito/lib/ui';
@@ -33,8 +32,6 @@ export const FacilitySpaceCalendarScreen = () => {
   const [site, setSite] = useState<string>();
   const [location, setLocation] = useState<string>();
   const [selectedSpaceId, setSelectedSpaceId] = useState<string>();
-
-  useHideTabs();
 
   useEffect(() => {
     if (!filter) return;

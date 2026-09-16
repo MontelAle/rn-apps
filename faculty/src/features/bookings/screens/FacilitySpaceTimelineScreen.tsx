@@ -1,6 +1,5 @@
 import {
   useCallback,
-  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -22,8 +21,6 @@ import {
   CtaButton,
   Text,
   Theme,
-  displayTabBar,
-  hideTabBar,
   useStylesheet,
   useTheme,
 } from '@polito/lib/ui';
@@ -131,12 +128,6 @@ export const FacilitySpaceTimelineScreen = () => {
   const { data: spaceTypes } = useGetInterdepartmentalSpaceTypes();
   const daysScrollRef = useRef<ScrollView>(null);
   const { width: windowWidth } = useWindowDimensions();
-
-  useEffect(() => {
-    const rootNav = navigation.getParent()!;
-    hideTabBar(rootNav);
-    return () => displayTabBar(rootNav);
-  }, [navigation]);
 
   const typeLabels = useMemo(
     () =>

@@ -33,7 +33,10 @@ import { NavigatorScreenParams, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { ProfileNavigator } from '../../screens/Profile/ProfileNavigator';
-import { ServiceNavigator } from '../../screens/Servizi/ServiceNavigator';
+import {
+  ServiceNavigator,
+  getServiceTabBarStyle,
+} from '../../screens/Servizi/ServiceNavigator';
 import {
   TeachingNavigator,
   TeachingStackParamList,
@@ -184,12 +187,16 @@ export const RootNavigator = () => {
       <TabNavigator.Screen
         name="Services"
         component={ServiceNavigator}
-        options={{
+        options={({ route }) => ({
           headerShown: false,
           tabBarLabel: t('other.services'),
           tabBarIcon: ({ color }) => (
             <Icon icon={faCircleInfo} color={color} size={20} />
           ),
+          tabBarStyle: getServiceTabBarStyle(route, [
+            styles.tabBarStyle,
+            androidTabBarBottom,
+          ]),
           tabBarButton: props => (
             <TabBarButton
               {...props}
@@ -199,7 +206,7 @@ export const RootNavigator = () => {
               }}
             />
           ),
-        }}
+        })}
       />
       <TabNavigator.Screen
         name="Profile"

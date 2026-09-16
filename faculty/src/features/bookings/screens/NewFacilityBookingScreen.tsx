@@ -27,7 +27,6 @@ import {
   TextButton,
   Theme,
   faSeat,
-  useHideTabs,
   useStylesheet,
   useTheme,
 } from '@polito/lib/ui';
@@ -78,7 +77,6 @@ export const NewFacilityBookingScreen = () => {
     useNavigation<NativeStackNavigationProp<ProfileStackParamList>>();
   const route =
     useRoute<RouteProp<ProfileStackParamList, 'NuovaPrenotazioneSpazio'>>();
-  useHideTabs();
   const spaceId = route.params?.spaceId;
   const eventId = route.params?.eventId;
   const { user, bookings, addBooking, updateBooking } = useBookings();
