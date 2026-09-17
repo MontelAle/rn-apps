@@ -1,13 +1,11 @@
 import Foundation
 import CoreLocation
 
-import React
-
 @objc(NativeIBeaconScanner)
 class NativeIBeaconScanner: RCTEventEmitter, CLLocationManagerDelegate {
 
     private var locationManager: CLLocationManager?
-  private var beaconConstraints: [String: CLBeaconIdentityConstraint] = [:]
+    private var beaconConstraints: [String: CLBeaconIdentityCondition] = [:]
 
     override init() {
         super.init()
@@ -60,7 +58,7 @@ class NativeIBeaconScanner: RCTEventEmitter, CLLocationManagerDelegate {
                 locationManager.requestWhenInUseAuthorization()
             }
 
-            let constraint = CLBeaconIdentityConstraint(uuid: uuid)
+            let constraint = CLBeaconIdentityCondition(uuid: uuid)
 
             self.beaconConstraints[uuidString] = constraint
 
@@ -171,7 +169,7 @@ class NativeIBeaconScanner: RCTEventEmitter, CLLocationManagerDelegate {
     func locationManager(
         _ manager: CLLocationManager,
         didRange beacons: [CLBeacon],
-        satisfying beaconConstraint: CLBeaconIdentityConstraint
+        satisfying beaconConstraint: CLBeaconIdentityCondition
     ) {
 
         for beacon in beacons {
@@ -199,11 +197,11 @@ class NativeIBeaconScanner: RCTEventEmitter, CLLocationManagerDelegate {
 
     // MARK: - Errors
 
-  func locationManager(
-      _ manager: CLLocationManager,
-      didFailRangingFor beaconConstraint: CLBeaconIdentityConstraint,
-      error: Error
-  ) {
+    func locationManager(
+        _ manager: CLLocationManager,
+        didFailRangingFor beaconConstraint: CLBeaconIdentityCondition,
+        error: Error
+    ) {
 
         sendEvent(
             withName: "iBeaconError",

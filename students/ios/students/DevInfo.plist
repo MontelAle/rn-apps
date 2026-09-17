@@ -50,7 +50,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Save PoliTO Authenticator MFA private key in Secure Enclave</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Indoor Trilateration</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Scan documents and pick images for assignments and ticket attachments</string>
 	<key>UIAppFonts</key>
