@@ -61,6 +61,16 @@ jest.mock('react-native-edge-to-edge', () => ({
   SystemBars: () => null,
 }));
 
+jest.mock('expo-web-browser', () => ({
+  openBrowserAsync: jest.fn(async () => ({ type: 'opened' })),
+  openAuthSessionAsync: jest.fn(async () => ({ type: 'cancel' })),
+  dismissBrowser: jest.fn(async () => {}),
+  dismissAuthSession: jest.fn(() => {}),
+  warmUpAsync: jest.fn(async () => {}),
+  coolDownAsync: jest.fn(async () => {}),
+  WebBrowserPresentationStyle: {},
+}));
+
 jest.mock('expo-image', () => ({
   Image: require('react-native').Image,
 }));
