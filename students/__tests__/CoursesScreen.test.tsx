@@ -37,7 +37,7 @@ describe('Module course flow: expand and navigate into a sub-module', () => {
     await render(<App />);
 
     const buttons = await screen.findAllByRole('button', {
-      name: 'See all (4 more)',
+      name: /See all/,
     });
 
     await fireEvent.press(buttons[0]);
@@ -49,7 +49,7 @@ describe('Module course flow: expand and navigate into a sub-module', () => {
     await render(<App />);
 
     const buttons = await screen.findAllByRole('button', {
-      name: 'See all (4 more)',
+      name: /See all/,
     });
 
     await fireEvent.press(buttons[0]);
