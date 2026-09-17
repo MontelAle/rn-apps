@@ -53,7 +53,7 @@ jest.mock(
 
 // -- manual mocks
 // libraries that don't provide their own jest mock. These are minimal and
-// may need expanding when a test reaches a not-previously-covered code path.
+// may need expanding when a test reaches a not previously covered code path
 
 jest.mock('@react-native-community/datetimepicker', () => 'DateTimePicker');
 

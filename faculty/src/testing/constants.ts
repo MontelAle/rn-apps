@@ -1,18 +1,5 @@
 /**
- * Fixtures the faculty flow tests navigate through.
- *
- * Unlike the students app — where every screen is driven by an API response
- * mocked through MSW — the faculty app is still a prototype: its screens read
- * from the in-memory fixtures hardcoded in `~/core/contexts/CoursesContext`.
- * There is no request to intercept, so these constants are not response bodies
- * but pointers to the rows of that context the tests act on. Keep them in sync
- * with CoursesContext as the app moves onto the real API.
- */
-
-/**
- * `fakeCourses[3]`. Picked over the other assigned courses because no exam
- * call shares its name, so its title is unambiguous on the Teaching home
- * screen (which renders courses and exam calls in sibling sections).
+ * `fakeCourses[3]`
  */
 export const TEST_COURSE = {
   title: 'Chimica',
@@ -26,15 +13,14 @@ export const TEST_COURSE = {
   },
 };
 
-/** `managedCourses[0]`, listed in the Teaching home "Managed Courses" section. */
+/** `managedCourses[0]`*/
 export const TEST_MANAGED_COURSE = {
   title: 'Informatica Teorica',
   code: 'INF201',
 };
 
 /**
- * `fakeExams[0]`. The Teaching home lists the first three exam calls and this
- * is the only one dated `Oggi`, so its "Today" subtitle identifies the row.
+ * `fakeExams[0]`
  */
 export const TEST_EXAM_CALL = {
   subject: 'Matematica',

@@ -53,10 +53,8 @@ jest.mock(
 );
 
 // -- manual mocks
-// sadly most libraries don't provide mocks.
-// mocks provided here are taken from a mix of online sources and llm.
-// mocks here are incomplete (by nature) and could require expanding when
-// visiting not previously covered code paths
+// libraries that don't provide their own jest mock. These are minimal and
+// may need expanding when a test reaches a not previously covered code path
 
 jest.mock('expo-sqlite/kv-store', () => ({
   SQLiteStorage: jest.fn(() => ({
