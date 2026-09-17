@@ -14,10 +14,10 @@ describe('Services flow: Services tab and the booking service', () => {
   it('pressing the Services tab shows the service cards', async () => {
     expect(await openServicesTab()).toBeOnTheScreen();
 
-    // Mail and Persone are the two services marked as favourites, so they
+    // Mail and Contacts are the two services marked as favourites, so they
     // render in the preferred grid above the rest.
     expect(screen.getByText('Mail')).toBeOnTheScreen();
-    expect(screen.getByText('Persone')).toBeOnTheScreen();
+    expect(screen.getByText('Contacts')).toBeOnTheScreen();
   });
 
   it('pressing Book Places opens the booking options', async () => {
