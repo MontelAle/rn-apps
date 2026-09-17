@@ -1,9 +1,13 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 
 import { useScannerBluetooth } from '../hooks/useBleFingerPrinting';
+import { useIBeaconScanner } from '../hooks/useIBeaconScanner';
 
 export const BleScreenTest = () => {
-  const { isScanning, startScanning, stopScanning } = useScannerBluetooth();
+  //const { isScanning, startScanning, stopScanning } = useScannerBluetooth();
+
+  const { startScanner, stopScanner, isScanning, beacons } =
+    useIBeaconScanner();
 
   return (
     <View style={styles.container}>
@@ -13,9 +17,14 @@ export const BleScreenTest = () => {
       <View style={styles.card}>
         <Text style={styles.subtitle}> Scan Bluetooth devices</Text>
         <Button
-          title={isScanning ? 'Stop Scan' : 'Start Scan'}
-          color="blue"
-          onPress={isScanning ? stopScanning : startScanning}
+          title={isScanning ? 'Stop' : 'Scan iBeacons'}
+          onPress={() => {
+            if (isScanning) {
+              stopScanner();
+            } else {
+              startScanner('CBA5D181-DD12-46A7-A3D2-9C1C5EB1E478');
+            }
+          }}
         />
       </View>
     </View>
