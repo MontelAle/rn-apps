@@ -15,19 +15,26 @@ interface MockRouteOptions<T = unknown> {
 const BASE = 'https://app.didattica.polito.it/api';
 
 /**
- * Returns an MSW handler for the given OpenAPI spec path.
+ * Creates an MSW handler for an API route, using the path as written in the
+ * OpenAPI spec.
  *
- * - Pass the `T` type parameter for the type of `data` in the response
- *   (e.g. `mockRoute<Course>(...)`). `options.body` still takes the full
- *   response envelope (e.g. `{ data: ..., states: ... }`); extra envelope
- *   properties beyond `data` are untyped. Omit `options.body` to use the
- *   spec's 200 example.
- * - Pass `options.headers` to include custom response headers.
- * - {param} placeholders with a matching entry in `options.params` are
- *   substituted with the concrete value; unresolved ones become :param
- *   wildcards so the handler matches any value.
- * - Pass `options.status` to return a non-200 status; no body is sent
- *   unless `options.body` is also provided.
+ * @example
+ * mockRoute('/v2/courses'); // responds with the spec example
+ * mockRoute<Course>('/courses/{courseId}', { body: { data: MY_COURSE } });
+ * mockRoute('/exams', { body: { data: [] } }); // empty list
+ * mockRoute('/student/tickets', { status: 500 }); // error, no body
+ *
+ * @param specPath Path as written in the spec, e.g. '/courses/{courseId}'.
+ *   `{courseId}` matches any id unless you set `options.params.courseId`.
+ * @param options.body Full response body, e.g. `{ data: ..., states: ... }`.
+ *   `T` types `data`, other fields are not checked. Without `body` the
+ *   response is the spec's 200 example (it throws if the spec has none).
+ *   Error statuses (400 and up) and 204 respond with no body instead.
+ * @param options.status Response status. Defaults to 200.
+ * @param options.method HTTP method. Defaults to 'get'.
+ * @param options.params Values for the `{params}` in the path, to match one
+ *   specific value instead of any.
+ * @param options.headers Extra response headers.
  */
 export function mockRoute<T = unknown>(
   specPath: string,
