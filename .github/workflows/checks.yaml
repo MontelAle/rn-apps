@@ -35,8 +35,12 @@ jobs:
       if: matrix.check == 'test'
       uses: actions/cache@v4
       with:
-        path: ./students/.jest-cache
-        key: ${{ runner.os }}-jest-students-${{ hashFiles('./package-lock.json') }}
+        path: |
+          ./students/.jest-cache
+          ./faculty/.jest-cache
+        key: ${{ runner.os }}-jest-v1-${{ hashFiles('./package-lock.json', './students/jest.config.js', './faculty/jest.config.js', './students/babel.config.js', './faculty/babel.config.js') }}
+        restore-keys: |
+          ${{ runner.os }}-jest-v1-
     - name: Setup .npmrc
       run: printf '@polito:registry=https://npm.pkg.github.com\n//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}\n' > .npmrc
     - name: Install npm dependencies
