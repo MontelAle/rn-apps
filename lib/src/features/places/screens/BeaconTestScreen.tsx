@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -20,8 +20,7 @@ export const BeaconTestScreen = ({ navigation }: Props) => {
   const styles = useStylesheet(createStyles);
   const { t } = useTranslation();
 
-  const { userLocation, isScanning, startTracking } =
-    useRealTimeTrilateration();
+  const { userLocation, isScanning } = useRealTimeTrilateration();
 
   useLayoutEffect(() => {
     const parent = navigation.getParent();
@@ -39,10 +38,11 @@ export const BeaconTestScreen = ({ navigation }: Props) => {
 
   useScreenTitle(t('itineraryScreen.title'));
 
+  /*
   // Opzionale: Avvia il tracking in automatico quando apri lo schermo
   useEffect(() => {
     startTracking();
-  }, []);
+  }, [startTracking]);*/
 
   useLayoutEffect(() => {
     navigation.setOptions({

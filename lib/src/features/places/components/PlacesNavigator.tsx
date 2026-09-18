@@ -9,7 +9,7 @@ import {
   Images,
   RasterLayer,
   RasterSource,
-  UserLocation, //removed momentarily
+  //UserLocation, //removed momentarily
 } from '@rnmapbox/maps';
 
 import { notNullish } from '../../../core/utils/predicates';

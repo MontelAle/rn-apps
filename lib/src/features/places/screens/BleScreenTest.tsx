@@ -1,13 +1,14 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 
-import { useScannerBluetooth } from '../hooks/useBleFingerPrinting';
+import { useStylesheet } from '@polito/lib/ui';
+import { Theme } from '@polito/lib/ui';
+
 import { useIBeaconScanner } from '../hooks/useIBeaconScanner';
 
 export const BleScreenTest = () => {
-  //const { isScanning, startScanning, stopScanning } = useScannerBluetooth();
+  const styles = useStylesheet(createStyles);
 
-  const { startScanner, stopScanner, isScanning, beacons } =
-    useIBeaconScanner();
+  const { startScanner, stopScanner, isScanning } = useIBeaconScanner();
 
   return (
     <View style={styles.container}>
@@ -31,31 +32,36 @@ export const BleScreenTest = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  warning: { color: 'red', textAlign: 'center', marginBottom: 10 },
-  scanBox: { alignItems: 'center', marginBottom: 20 },
-  scanText: { marginTop: 10, fontSize: 16, fontWeight: 'bold' },
-  card: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  subtitle: { fontSize: 16, fontWeight: '600', marginBottom: 10 },
-});
+const createStyles = ({ colors }: Theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 20,
+      justifyContent: 'center',
+      backgroundColor: colors.white,
+    },
+    title: {
+      fontSize: 22,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginBottom: 20,
+    },
+    warning: {
+      color: colors.white,
+      textAlign: 'center',
+      marginBottom: 10,
+    },
+    scanBox: { alignItems: 'center', marginBottom: 20 },
+    scanText: { marginTop: 10, fontSize: 16, fontWeight: 'bold' },
+    card: {
+      backgroundColor: colors.background,
+      padding: 20,
+      borderRadius: 10,
+      marginBottom: 20,
+      shadowColor: colors.black,
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      elevation: 3,
+    },
+    subtitle: { fontSize: 16, fontWeight: '600', marginBottom: 10 },
+  });

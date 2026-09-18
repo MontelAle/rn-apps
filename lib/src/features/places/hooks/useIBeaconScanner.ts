@@ -25,17 +25,6 @@ export const useIBeaconScanner = () => {
         uuid,
 
         beacon => {
-          console.log(
-            'iBEACON:',
-            beacon.uuid,
-            'major:',
-            beacon.major,
-            'minor:',
-            beacon.minor,
-            'RSSI:',
-            beacon.rssi,
-          );
-
           setBeacons(prev => {
             const key = `${beacon.uuid}-${beacon.major}-${beacon.minor}`;
 

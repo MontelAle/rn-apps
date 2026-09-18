@@ -8,15 +8,14 @@ export type IBeacon = {
 };
 
 /**
- * Converte un UUID iBeacon da 16 byte nel formato standard esadecimale:
+ * Parse 16bytes iBeacon da 16 byte to standard exadecimal format:
  * xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
  */
 function formatUuid(bytes: Uint8Array | Buffer): string {
-  // Convertiamo esplicitamente ogni singolo byte in un esadecimale di 2 caratteri (es. 168 -> 'a8')
   const hex = Array.from(bytes)
     .map(b => b.toString(16).padStart(2, '0'))
     .join('')
-    .toUpperCase(); // Usa toLowerCase() se preferisci i caratteri minuscoli
+    .toUpperCase(); // toLowerCase() if you prefer lower cases
 
   return [
     hex.substring(0, 8),
