@@ -41,6 +41,8 @@ When a test reaches new code, a manual mock may be missing something. You'll usu
 
 The MSW server is in `src/testing/msw/server.ts`. It starts with `commonRoutes`, the routes almost every screen calls on boot (notifications, career, sites, ...). If every test needs a route, add it there. Otherwise add it in the test file with `server.use(...)`.
 
+We keep `onUnhandledRequest: 'error'` to stop any request without a handler and log to console.
+
 ### mockRoute
 
 `mockRoute(path, options)` in `src/testing/utils/mockRoute.ts` returns an MSW handler.
