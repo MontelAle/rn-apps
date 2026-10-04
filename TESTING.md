@@ -13,7 +13,7 @@ npm test --workspace=students -- CoursesScreen # one file
 npm run test:check # what CI runs
 ```
 
-Both `students/` and `faculty/` have their own jest.config.js and jest.setup.ts. The following is a short summary of both.
+Both `students/` and `faculty/` have their own jest.config.js and jest.setup.ts. The following is a short summary of both. Both `jest.setup.ts` use a shared base setup. We don't do this for `jest.config.js` because they differ and it would complicate the use of different `jest.setup.ts`.
 
 ## jest.config.js
 
@@ -24,18 +24,20 @@ Both `students/` and `faculty/` have their own jest.config.js and jest.setup.ts.
 
 ## jest.setup.ts
 
+Inside each app `jest.setup.ts` starts by importing `lib/src/testing/jest.setup.ts`. This is the shared setup. The rest of the app file are specific mocks and the MSW server hooks.
+
 - `configure({ asyncUtilTimeout: 5000 })`: the app takes a while to boot, so `findBy` waits up to 5 seconds.
 - **React Query timers**: we `unref` React Query timers so pending gc timers don't keep jest alive after the tests end.
 - **`notifyManager.setScheduler(queueMicrotask)`**: React Query delivers cache updates to components from a `setTimeout(0)`. That update can land outside `act`. With a microtask the update stays in the same tick as the change that caused it. This way it's covered by the RNTL call.
 - **Imported mocks**: libraries that ship their own jest mock (netinfo, localize, permissions, device info, async storage, safe area). We just wire them up.
 - **Manual mocks**: libraries that don't ship a mock. These are minimal and only cover what the app calls during our tests.
-- **App specific mocks**:
+- **lib mocks**:
   `Grid` from lib (layout issue) and `initSentry` / `Sentry` from `@polito/lib/core`, so `App.tsx` runs without Sentry.
 - **Hooks**: before each test we reset the keychain mock and AsyncStorage. The MSW server starts once per file with `onUnhandledRequest: 'error'` and handlers are reset after each test.
 
 ### Maintaining manual mocks
 
-When a test reaches new code, a manual mock may be missing something. You'll usually see `X is not a function` or `Cannot read properties of undefined` coming from a native library. Add the missing function to the mock in `jest.setup.ts` and return the most boring value possible (`null`, `false`, an empty array, a resolved promise). If the library ships a mock in a new version, move it to the imported mocks section.
+When a test reaches new code, a manual mock may be missing something. You'll usually see `X is not a function` or `Cannot read properties of undefined` coming from a native library. Add the missing function to the mock (in lib or in the app `jest.setup.ts`) and return the most boring value possible (`null`, `false`, an empty array, a resolved promise). If the library ships a mock in a new version, move it to the imported mocks section.
 
 ## Mocking the API
 
