@@ -1,6 +1,6 @@
 import { HttpHandler } from 'msw';
 
-import { TEST_STUDENT, TEST_TEACHER } from '../constants';
+import { TEST_PROFILE, TEST_STUDENT, TEST_TEACHER } from '../constants';
 import { mockRoute } from '../utils/mockRoute';
 
 export const commonRoutes = (): HttpHandler[] => [
@@ -13,4 +13,12 @@ export const commonRoutes = (): HttpHandler[] => [
   mockRoute('/v2/sites', { body: { data: [] } }),
   mockRoute('/surveys', { body: { data: [] } }),
   mockRoute('/people/{personId}', { body: { data: TEST_TEACHER } }),
+  mockRoute('/auth/profile', { body: { data: TEST_PROFILE } }),
+  mockRoute('/auth/profile/picture', { status: 204 }),
+  mockRoute('/auth/serviceLink/smartcard', {
+    body: { data: { url: 'https://test-mock-smartcard.polito.it' } },
+  }),
+  mockRoute('/esc', {
+    body: { data: { canBeRequested: false, details: null } },
+  }),
 ];

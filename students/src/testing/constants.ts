@@ -1,5 +1,6 @@
 import {
   Exam as ApiExam,
+  AuthProfile,
   Course,
   CourseNotices,
   ExamGrade,
@@ -40,6 +41,14 @@ export const TEST_STUDENT: StudentCareer = {
   enrollmentCredits: 120,
   enrollmentAttendedCredits: 90,
   enrollmentAcquiredCredits: 60,
+};
+
+// No spec example for /auth/profile
+export const TEST_PROFILE: AuthProfile = {
+  username: 's123456',
+  firstName: 'Test',
+  lastName: 'Student',
+  allUsernames: ['S123456'],
 };
 
 // No spec example for /people/{personId}

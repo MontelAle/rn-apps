@@ -133,12 +133,10 @@ Other utils in `src/testing/utils`: `mockConfirmAlert(message)` presses the firs
 
 ## Console output
 
-Running the tests prints many `console.warn` and `console.error` messages even if everything passes.
+Running the tests prints `console.warn` messages even if everything passes.
 These console outputs give useful information.
 
 - `console.warn` comes from the app. It warns about deprecations or about excessive rerenders. They point at things worth looking at in the app.
-
-- `console.error` is mostly MSW logging `intercepted a request without a matching request handler`. Many requests are not essential thus the app handles the failed request and the test still passes.
 
 For a quiet run pass `--silent`, for example `npm test --workspace=students -- --silent`.
 
