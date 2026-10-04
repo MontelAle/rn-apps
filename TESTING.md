@@ -56,13 +56,17 @@ mockRoute<Course>('/courses/{courseId}', {
 });
 mockRoute('/exams', { body: { data: [] } }); // empty state
 mockRoute('/student/tickets', { status: 500 }); // error
+mockRoute('/student/tickets', {
+  status: 500,
+  body: { message: 'Tickets unavailable' },
+}); // error with a custom message
 mockRoute('/courses/{courseId}', { params: { courseId: 1 } }); // one id only
 ```
 
 - `path` is written like in the OpenAPI spec. `{params}` match any value unless you pass them in `options.params`.
 - **Students**: without `body`, the response is the `200` example from the OpenAPI spec of `@polito/student-api-client`. It throws if the spec has no example for that route.
 - **Faculty**: the api client has no spec, so you always pass `body`.
-- `status` returns a different status code. No body is sent unless you pass one.
+- Error statuses accept a `{ code, message }` body. In students every failed query shows an `Alert` and logs `console.error`.
 - `method` defaults to `get`.
 
 ### Examples vs constants
@@ -144,3 +148,4 @@ For a quiet run pass `--silent`, for example `npm test --workspace=students -- -
 
 - **act warnings**: usually a missing `await` on `render` or `fireEvent`.
 - **`Unhandled request` error**: the screen calls a route you didn't mock. Add it with `server.use` or to `commonRoutes`.
+- **`Unexpected end of JSON input`**: an error response reached the students app without a JSON body.
