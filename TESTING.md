@@ -146,4 +146,3 @@ For a quiet run pass `--silent`, for example `npm test --workspace=students -- -
 
 - **act warnings**: usually a missing `await` on `render` or `fireEvent`.
 - **`Unhandled request` error**: the screen calls a route you didn't mock. Add it with `server.use` or to `commonRoutes`.
-- **`findBy` finds an element but `toBeOnTheScreen` fails**: the component remounted right after being found. Look for components defined inside other components (we had one in `SectionHeader`).
