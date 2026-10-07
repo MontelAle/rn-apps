@@ -65,7 +65,7 @@ mockRoute('/courses/{courseId}', { params: { courseId: 1 } }); // one id only
 
 - `path` is written like in the OpenAPI spec. `{params}` match any value unless you pass them in `options.params`.
 - **Students**: without `body`, the response is the `200` example from the OpenAPI spec of `@polito/student-api-client`. It throws if the spec has no example for that route.
-- **Faculty**: the api client has no spec, so you always pass `body`.
+- **Faculty**: `mockRoute` doesn't read the spec, so you always pass `body`.
 - Error statuses accept a `{ code, message }` body. In students every failed query shows an `Alert` and logs `console.error`.
 - `method` defaults to `get`.
 
@@ -73,11 +73,11 @@ mockRoute('/courses/{courseId}', { params: { courseId: 1 } }); // one id only
 
 Use the spec example when you just need the screen to load. Use a constant from `src/testing/constants.ts` when the spec has no example (like `TEST_TEACHER`) or when the test asserts on specific values. Assert using the constant itself (`screen.findByText(WEB_APPS_II_DETAIL.name)`), so data and assertion stay in sync.
 
-Faculty screens still read from in-memory fixtures in `CoursesContext`, so faculty constants point to rows of that context instead of API responses.
+Most faculty screens still read from in-memory fixtures in `CoursesContext`, so most faculty constants point to rows of that context instead of API responses. The exception is the course list on the Teaching home, which comes from `GET /v2/courses` (`TEST_API_COURSE`).
 
 ## Auth
 
-In students, `~/utils/keychain` is replaced by `students/__mocks__/keychain.ts`, which keeps credentials in memory.
+In both apps, `react-native-keychain` is replaced by `lib/src/testing/mocks/keychain.ts`, which keeps credentials in memory. Import it from `@polito/lib/testing/mocks/keychain`.
 
 - `__seedCredentials({ username, password })` logs the user in. It also writes `username` to AsyncStorage because the app reads it from there.
 - Credentials are reset before each test. If you don't seed, the app starts on the login screen.

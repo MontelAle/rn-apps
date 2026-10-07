@@ -21,6 +21,6 @@ module.exports = {
       require.resolve('react-native/jest/assetFileTransformer.js'),
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|@react-native(-community)?|@react-navigation|expo(-.*)?|@expo(-.*)?/.*|@polito|@sentry/react-native|react-native-.*|@rnmapbox|@gorhom|@tanstack|@open-draft|rettime|until-async|superjson|copy-anything|is-what|@fortawesome|@react-native-menu|color|color-string|color-convert|color-name|date-fns)/)',
+    'node_modules/(?!(react-native|@react-native(-community)?|@react-navigation|expo(-.*)?|@expo(-.*)?/.*|@polito|@sentry/react-native|react-native-.*|@rnmapbox|@gorhom|@tanstack|@open-draft|rettime|until-async|superjson|copy-anything|is-what|@fortawesome|@react-native-menu|color|color-string|color-convert|color-name|date-fns|@noble|base32-encode|to-data-view)/)',
   ],
 };

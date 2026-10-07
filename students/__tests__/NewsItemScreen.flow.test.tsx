@@ -1,3 +1,4 @@
+import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
 import {
   EmailBadge,
   NewsItem,
@@ -9,8 +10,6 @@ import App from '~/App';
 import { TEST_NEWS_ITEM, TEST_NEWS_OVERVIEW } from '~/testing/constants';
 import { server } from '~/testing/msw/server';
 import { mockRoute } from '~/testing/utils/mockRoute';
-
-import { __seedCredentials } from '../__mocks__/keychain';
 
 describe('News flow: Services, News & Events, NewsItemScreen', () => {
   beforeEach(() => {

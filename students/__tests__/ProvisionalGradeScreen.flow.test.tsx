@@ -1,3 +1,4 @@
+import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
 import { ProvisionalGrade } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
@@ -6,8 +7,6 @@ import { PROVISIONAL_GRADE_CONFIRMABLE } from '~/testing/constants';
 import { server } from '~/testing/msw/server';
 import { mockConfirmAlert } from '~/testing/utils/mockConfirmAlert';
 import { mockRoute } from '~/testing/utils/mockRoute';
-
-import { __seedCredentials } from '../__mocks__/keychain';
 
 describe('Provisional grade flow: acceptance', () => {
   beforeEach(() => {

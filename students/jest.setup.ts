@@ -7,14 +7,6 @@ import { server } from './src/testing/msw/server';
 // libraries that don't provide their own jest mock. These are minimal and
 // may need expanding when a test reaches a not previously covered code path
 
-jest.mock('expo-sqlite/kv-store', () => ({
-  SQLiteStorage: jest.fn(() => ({
-    getItem: jest.fn(async () => null),
-    setItem: jest.fn(async () => {}),
-    removeItem: jest.fn(async () => {}),
-  })),
-}));
-
 jest.mock('expo-sqlite', () => ({
   openDatabaseAsync: jest.fn(async () => ({
     execAsync: jest.fn(async () => {}),
@@ -102,14 +94,6 @@ jest.mock('react-native-saf-x', () => ({
   hasPermission: jest.fn(async () => false),
 }));
 
-jest.mock('react-native-keychain', () => ({
-  setGenericPassword: jest.fn(async () => true),
-  getGenericPassword: jest.fn(async () => false),
-  resetGenericPassword: jest.fn(async () => true),
-  ACCESSIBLE: {},
-  ACCESS_CONTROL: {},
-}));
-
 jest.mock('react-native-check-version', () => ({
   checkVersion: jest.fn(async () => ({ needsUpdate: false })),
 }));
@@ -139,13 +123,6 @@ jest.mock('@react-native-firebase/messaging', () => ({
 
 jest.mock('react-native-date-picker', () => () => null);
 
-// Auth mock
-// allows us to set easily set user
-jest.mock('~/utils/keychain', () => require('./__mocks__/keychain'));
-
-beforeEach(() => {
-  require('./__mocks__/keychain').__resetKeychain();
-});
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());

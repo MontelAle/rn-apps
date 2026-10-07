@@ -1,3 +1,4 @@
+import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
 import { Course } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
@@ -8,8 +9,6 @@ import {
 } from '~/testing/constants';
 import { server } from '~/testing/msw/server';
 import { mockRoute } from '~/testing/utils/mockRoute';
-
-import { __seedCredentials } from '../__mocks__/keychain';
 
 // Module course flow
 describe('Module course flow: expand and navigate into a sub-module', () => {
@@ -36,11 +35,10 @@ describe('Module course flow: expand and navigate into a sub-module', () => {
   it('renders submodules in the expanded list screen', async () => {
     await render(<App />);
 
-    const buttons = await screen.findAllByRole('button', {
-      name: /See all/,
-    });
-
-    await fireEvent.press(buttons[0]);
+    // The Courses section header links to the full courses list.
+    await fireEvent.press(
+      await screen.findByRole('button', { name: 'Courses' }),
+    );
 
     expect(await screen.findByText('Programming Module A')).toBeOnTheScreen();
   });
@@ -48,11 +46,9 @@ describe('Module course flow: expand and navigate into a sub-module', () => {
   it('pressing a module row navigates to its CourseInfoScreen', async () => {
     await render(<App />);
 
-    const buttons = await screen.findAllByRole('button', {
-      name: /See all/,
-    });
-
-    await fireEvent.press(buttons[0]);
+    await fireEvent.press(
+      await screen.findByRole('button', { name: 'Courses' }),
+    );
 
     await fireEvent.press(await screen.findByText('Programming Module A'));
 

@@ -6,7 +6,8 @@
     "./core": "./src/core/index.ts",
     "./features/*": "./src/features/*/index.ts",
     "./ui": "./src/ui/index.ts",
-    "./testing/jest.setup": "./src/testing/jest.setup.ts"
+    "./testing/jest.setup": "./src/testing/jest.setup.ts",
+    "./testing/mocks/keychain": "./src/testing/mocks/keychain.ts"
   },
   "scripts": {
     "add": "node ../tools/scripts/installDeps.js",

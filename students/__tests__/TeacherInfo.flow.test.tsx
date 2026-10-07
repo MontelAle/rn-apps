@@ -1,3 +1,4 @@
+import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
 import { Exam } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
@@ -5,8 +6,6 @@ import App from '~/App';
 import { AVAILABLE_EXAM, WEB_APPS_II_DETAIL } from '~/testing/constants';
 import { server } from '~/testing/msw/server';
 import { mockRoute } from '~/testing/utils/mockRoute';
-
-import { __seedCredentials } from '../__mocks__/keychain';
 
 describe('Teacher info flow: exam detail', () => {
   beforeEach(() => {

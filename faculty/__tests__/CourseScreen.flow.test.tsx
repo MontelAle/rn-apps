@@ -1,3 +1,4 @@
+import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
@@ -6,6 +7,9 @@ import { TEST_COURSE } from '~/testing/constants';
 const openCourse = async () => {
   await render(<App />);
 
+  // The Teaching home lists API courses, which have no notices yet; the
+  // My Courses list still opens CoursesContext courses.
+  await fireEvent.press(await screen.findByText('My Courses'));
   await fireEvent.press(await screen.findByText(TEST_COURSE.title));
 
   // The Info tab is the first of the course top tabs and renders the course
@@ -14,7 +18,11 @@ const openCourse = async () => {
 };
 
 describe('Course flow: opening a course and browsing its tabs', () => {
-  it('pressing a course on the Teaching home opens it on the Info tab', async () => {
+  beforeEach(() => {
+    __seedCredentials({ username: 'd123456', password: 'fake-password' });
+  });
+
+  it('pressing a course in My Courses opens it on the Info tab', async () => {
     expect(await openCourse()).toBeOnTheScreen();
   });
 

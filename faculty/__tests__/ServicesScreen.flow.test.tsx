@@ -1,3 +1,4 @@
+import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
@@ -11,6 +12,10 @@ const openServicesTab = async () => {
 };
 
 describe('Services flow: Services tab and the booking service', () => {
+  beforeEach(() => {
+    __seedCredentials({ username: 'd123456', password: 'fake-password' });
+  });
+
   it('pressing the Services tab shows the service cards', async () => {
     expect(await openServicesTab()).toBeOnTheScreen();
 

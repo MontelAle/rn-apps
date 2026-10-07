@@ -1,3 +1,5 @@
+import { CourseOverview } from '@polito/student-api-client';
+
 /**
  * `fakeCourses[3]`
  */
@@ -31,4 +33,23 @@ export const TEST_EXAM_CALL = {
     { id: 'S317601', fullName: 'Luca Bianchi' },
     { id: 'S317602', fullName: 'Giulia Rossi' },
   ],
+};
+
+/**
+ * Course returned by `GET /v2/courses`, listed on the Teaching home.
+ */
+export const TEST_API_COURSE: CourseOverview = {
+  id: 270001,
+  shortcode: '01RKCOV',
+  name: 'Analisi Matematica I',
+  teachingPeriod: '1-1',
+  teacherId: 3001,
+  teacherName: 'Mario Rossi',
+  isOverBooking: false,
+  category: 'I',
+  enrollmentRole: 'teacher',
+  year: '2025',
+  previousEditions: [],
+  cfu: 10,
+  modules: null,
 };

@@ -1,3 +1,4 @@
+import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
@@ -16,6 +17,10 @@ const openExamCall = async () => {
 };
 
 describe('Exam call flow: details and booked students', () => {
+  beforeEach(() => {
+    __seedCredentials({ username: 'd123456', password: 'fake-password' });
+  });
+
   it('pressing an exam call on the Teaching home opens its details', async () => {
     expect(await openExamCall()).toBeOnTheScreen();
 

@@ -112,6 +112,19 @@ jest.mock('react-native-override-color-scheme', () => ({
   getScheme: jest.fn(() => null),
 }));
 
+jest.mock('expo-sqlite/kv-store', () => ({
+  SQLiteStorage: jest.fn(() => ({
+    getItem: jest.fn(async () => null),
+    setItem: jest.fn(async () => {}),
+    removeItem: jest.fn(async () => {}),
+    clear: jest.fn(async () => {}),
+  })),
+}));
+
+// Auth mock
+// keeps credentials in memory, tests log in with __seedCredentials
+jest.mock('react-native-keychain', () => require('./mocks/keychain'));
+
 // --- lib mocks
 
 // Grid layout mock
@@ -135,4 +148,5 @@ jest.mock('@polito/lib/core', () => ({
 beforeEach(() => {
   // clear storage between tests
   require('@react-native-async-storage/async-storage').clear();
+  require('./mocks/keychain').__resetKeychain();
 });

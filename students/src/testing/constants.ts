@@ -20,7 +20,11 @@ import {
 } from '@polito/student-api-client';
 
 export const TEST_STUDENT: StudentCareer = {
-  status: 'active',
+  state: {
+    label: 'Active',
+    color: { light: '#007595', dark: '#53EAFD' },
+    icon: 'fas/graduation-cap',
+  },
   degreeId: '81-6',
   degreeCode: 'LM-32',
   degreeLevel: 'Corso di Laurea Magistrale in',
@@ -73,6 +77,7 @@ export const WEB_APPS_II_DETAIL: Course = {
   teacherId: 2235,
   teacherName: 'Giovanni Malnati',
   isOverBooking: false,
+  category: 'I',
   enrollmentRole: 'student',
   year: '2025',
   cfu: 6,
@@ -92,6 +97,7 @@ export const PROGRAMMING_MODULE_A_DETAIL: Course = {
   teacherId: 3001,
   teacherName: 'Mario Rossi',
   isOverBooking: false,
+  category: 'I',
   enrollmentRole: 'student',
   year: '2025',
   cfu: 10,

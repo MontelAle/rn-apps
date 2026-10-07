@@ -1,13 +1,32 @@
+import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
+import { CourseOverview } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
-import { TEST_COURSE, TEST_MANAGED_COURSE } from '~/testing/constants';
+import {
+  TEST_API_COURSE,
+  TEST_COURSE,
+  TEST_MANAGED_COURSE,
+} from '~/testing/constants';
+import { server } from '~/testing/msw/server';
+import { mockRoute } from '~/testing/utils/mockRoute';
 
 describe('Teaching flow: home sections and the My Courses list', () => {
+  beforeEach(() => {
+    __seedCredentials({ username: 'd123456', password: 'fake-password' });
+  });
+
   it('boots into the Teaching tab listing assigned and managed courses', async () => {
+    // Assigned courses come from the API, managed courses from CoursesContext.
+    server.use(
+      mockRoute<CourseOverview[]>('/v2/courses', {
+        body: { data: [TEST_API_COURSE] },
+      }),
+    );
+
     await render(<App />);
 
-    expect(await screen.findByText(TEST_COURSE.title)).toBeOnTheScreen();
+    expect(await screen.findByText(TEST_API_COURSE.name)).toBeOnTheScreen();
     expect(screen.getByText(TEST_MANAGED_COURSE.title)).toBeOnTheScreen();
   });
 
