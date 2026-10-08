@@ -1,11 +1,11 @@
 import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
+import { mockRoute } from '@polito/lib/testing/utils/mockRoute';
 import { ExamGrade, ProvisionalGrade } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
 import { TEST_RECORDED_GRADE } from '~/testing/constants';
 import { server } from '~/testing/msw/server';
-import { mockRoute } from '~/testing/utils/mockRoute';
 
 describe('Recorded grade detail flow: Teaching, Grades, RecordedGradeScreen', () => {
   beforeEach(() => {

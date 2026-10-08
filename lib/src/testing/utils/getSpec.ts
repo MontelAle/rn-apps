@@ -14,7 +14,6 @@ interface SpecOperation {
 
 interface ParsedSpec {
   paths: Record<string, Partial<Record<HttpMethod, SpecOperation>>>;
-  components?: { schemas?: Record<string, { example?: unknown }> };
 }
 
 const packageJsonPath =
@@ -40,19 +39,6 @@ export function specExample<T = unknown>(
 
   if (example == null) {
     throw new Error(`No example found for ${method.toUpperCase()} ${apiPath}.`);
-  }
-
-  return example as T;
-}
-
-/**
- * Returns the schema example
- */
-export function schemaExample<T = unknown>(schemaName: string): T {
-  const example = spec.components?.schemas?.[schemaName]?.example;
-
-  if (example == null) {
-    throw new Error(`No example found for schema "${schemaName}".`);
   }
 
   return example as T;

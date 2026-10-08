@@ -1,4 +1,5 @@
 import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
+import { mockRoute } from '@polito/lib/testing/utils/mockRoute';
 import { CourseOverview } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
@@ -9,7 +10,6 @@ import {
   TEST_MANAGED_COURSE,
 } from '~/testing/constants';
 import { server } from '~/testing/msw/server';
-import { mockRoute } from '~/testing/utils/mockRoute';
 
 describe('Teaching flow: home sections and the My Courses list', () => {
   beforeEach(() => {

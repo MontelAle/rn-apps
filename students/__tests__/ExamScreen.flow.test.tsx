@@ -1,11 +1,11 @@
 import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
+import { mockRoute } from '@polito/lib/testing/utils/mockRoute';
 import { Exam } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
 import { AVAILABLE_EXAM } from '~/testing/constants';
 import { server } from '~/testing/msw/server';
-import { mockRoute } from '~/testing/utils/mockRoute';
 
 describe('Exam flow: list, detail, and booking', () => {
   beforeEach(() => {

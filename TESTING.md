@@ -47,7 +47,7 @@ We keep `onUnhandledRequest: 'error'` to stop any request without a handler and 
 
 ### mockRoute
 
-`mockRoute(path, options)` in `src/testing/utils/mockRoute.ts` returns an MSW handler.
+`mockRoute(path, options)` returns an MSW handler. Both apps call the same API, so it is shared in `lib/src/testing/utils/mockRoute.ts`: import it from `@polito/lib/testing/utils/mockRoute`.
 
 ```ts
 mockRoute('/v2/courses'); // spec example
@@ -64,8 +64,7 @@ mockRoute('/courses/{courseId}', { params: { courseId: 1 } }); // one id only
 ```
 
 - `path` is written like in the OpenAPI spec. `{params}` match any value unless you pass them in `options.params`.
-- **Students**: without `body`, the response is the `200` example from the OpenAPI spec of `@polito/student-api-client`. It throws if the spec has no example for that route.
-- **Faculty**: `mockRoute` doesn't read the spec, so you always pass `body`.
+- Without `body`, the response is the `200` example from the OpenAPI spec of `@polito/student-api-client`. It throws if the spec has no example for that route.
 - Error statuses accept a `{ code, message }` body. In students every failed query shows an `Alert` and logs `console.error`.
 - `method` defaults to `get`.
 

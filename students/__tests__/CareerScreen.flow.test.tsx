@@ -1,10 +1,10 @@
 import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
+import { mockRoute } from '@polito/lib/testing/utils/mockRoute';
 import { ProvisionalGrade } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
 import { server } from '~/testing/msw/server';
-import { mockRoute } from '~/testing/utils/mockRoute';
 
 describe('Career flow: Teaching, Transcript, Career tab', () => {
   beforeEach(() => {

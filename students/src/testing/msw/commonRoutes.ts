@@ -1,7 +1,8 @@
+import { mockRoute } from '@polito/lib/testing/utils/mockRoute';
+
 import { HttpHandler } from 'msw';
 
 import { TEST_PROFILE, TEST_STUDENT, TEST_TEACHER } from '../constants';
-import { mockRoute } from '../utils/mockRoute';
 
 export const commonRoutes = (): HttpHandler[] => [
   mockRoute('/notifications', { body: { data: [] } }),

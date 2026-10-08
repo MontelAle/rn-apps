@@ -1,11 +1,11 @@
 import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
+import { mockRoute } from '@polito/lib/testing/utils/mockRoute';
 import { Message } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '~/App';
 import { TEST_MESSAGE } from '~/testing/constants';
 import { server } from '~/testing/msw/server';
-import { mockRoute } from '~/testing/utils/mockRoute';
 
 describe('Messages flow: Profile, Messages', () => {
   beforeEach(() => {

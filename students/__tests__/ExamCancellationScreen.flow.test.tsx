@@ -1,4 +1,5 @@
 import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
+import { mockRoute } from '@polito/lib/testing/utils/mockRoute';
 import { Exam } from '@polito/student-api-client';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
@@ -6,7 +7,6 @@ import App from '~/App';
 import { BOOKED_EXAM } from '~/testing/constants';
 import { server } from '~/testing/msw/server';
 import { mockConfirmAlert } from '~/testing/utils/mockConfirmAlert';
-import { mockRoute } from '~/testing/utils/mockRoute';
 
 describe('Exam flow: cancellation', () => {
   beforeEach(() => {

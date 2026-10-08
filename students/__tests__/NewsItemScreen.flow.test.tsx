@@ -1,4 +1,5 @@
 import { __seedCredentials } from '@polito/lib/testing/mocks/keychain';
+import { mockRoute } from '@polito/lib/testing/utils/mockRoute';
 import {
   EmailBadge,
   NewsItem,
@@ -9,7 +10,6 @@ import { fireEvent, render, screen } from '@testing-library/react-native';
 import App from '~/App';
 import { TEST_NEWS_ITEM, TEST_NEWS_OVERVIEW } from '~/testing/constants';
 import { server } from '~/testing/msw/server';
-import { mockRoute } from '~/testing/utils/mockRoute';
 
 describe('News flow: Services, News & Events, NewsItemScreen', () => {
   beforeEach(() => {
