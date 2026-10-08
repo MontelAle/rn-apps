@@ -33,7 +33,7 @@ Inside each app `jest.setup.ts` starts by importing `lib/src/testing/jest.setup.
 - **Manual mocks**: libraries that don't ship a mock. These are minimal and only cover what the app calls during our tests.
 - **lib mocks**:
   `Grid` from lib (layout issue) and `initSentry` / `Sentry` from `@polito/lib/core`, so `App.tsx` runs without Sentry.
-- **Hooks**: before each test we reset the keychain mock and AsyncStorage. The MSW server starts once per file with `onUnhandledRequest: 'error'` and handlers are reset after each test.
+- **Hooks**: before each test we reset the keychain mock and AsyncStorage. Students also sets `lastInstalledVersion` to the current app version (to avoid migrations). The MSW server starts once per file with `onUnhandledRequest: 'error'` and handlers are reset after each test.
 
 ### Maintaining manual mocks
 

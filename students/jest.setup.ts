@@ -1,6 +1,8 @@
 // shared setup and mocks
 import '@polito/lib/testing/jest.setup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { version } from './package.json';
 import { server } from './src/testing/msw/server';
 
 // -- manual mocks
@@ -122,6 +124,9 @@ jest.mock('@react-native-firebase/messaging', () => ({
 }));
 
 jest.mock('react-native-date-picker', () => () => null);
+
+// boot as an updated install
+beforeEach(() => AsyncStorage.setItem('lastInstalledVersion', version));
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => server.resetHandlers());
