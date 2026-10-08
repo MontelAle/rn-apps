@@ -19,8 +19,7 @@ describe('Services flow: Services tab and the booking service', () => {
   it('pressing the Services tab shows the service cards', async () => {
     expect(await openServicesTab()).toBeOnTheScreen();
 
-    // Mail and Contacts are the two services marked as favourites, so they
-    // render in the preferred grid above the rest.
+    // Mail and Contacts are the two services marked as favourites
     expect(screen.getByText('Mail')).toBeOnTheScreen();
     expect(screen.getByText('Contacts')).toBeOnTheScreen();
   });

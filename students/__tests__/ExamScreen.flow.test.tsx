@@ -11,7 +11,6 @@ describe('Exam flow: list, detail, and booking', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/v2/courses'),
       mockRoute<Exam[]>('/exams', { body: { data: [AVAILABLE_EXAM] } }),
     );
   });

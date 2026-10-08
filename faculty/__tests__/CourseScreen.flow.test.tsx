@@ -7,13 +7,9 @@ import { TEST_COURSE } from '~/testing/constants';
 const openCourse = async () => {
   await render(<App />);
 
-  // The Teaching home lists API courses, which have no notices yet; the
-  // My Courses list still opens CoursesContext courses.
   await fireEvent.press(await screen.findByText('My Courses'));
   await fireEvent.press(await screen.findByText(TEST_COURSE.title));
 
-  // The Info tab is the first of the course top tabs and renders the course
-  // code in its caption, so it doubles as "the course screen is up".
   return screen.findByText(new RegExp(TEST_COURSE.code));
 };
 

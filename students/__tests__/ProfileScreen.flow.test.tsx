@@ -9,10 +9,6 @@ import { server } from '~/testing/msw/server';
 describe('Profile screen flow', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
-    server.use(
-      mockRoute('/v2/courses'),
-      mockRoute('/exams', { body: { data: [] } }),
-    );
   });
 
   it('navigating to the Profile tab shows the career degree level', async () => {
@@ -42,8 +38,6 @@ describe('Notifications preferences flow', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/v2/courses'),
-      mockRoute('/exams', { body: { data: [] } }),
       mockRoute<Partial<NotificationPreferences>>(
         '/notifications/preferences',
         { body: { data: { tickets: true, bookings: false } } },

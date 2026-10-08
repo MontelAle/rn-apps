@@ -12,8 +12,6 @@ describe('Provisional grade flow: acceptance', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/v2/courses'),
-      mockRoute('/exams', { body: { data: [] } }),
       mockRoute('/grades', { body: { data: [] } }),
       mockRoute<ProvisionalGrade[]>('/provisional-grades', {
         body: { data: [PROVISIONAL_GRADE_CONFIRMABLE], states: [] },
@@ -78,8 +76,6 @@ describe('Provisional grade flow: rejection', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/v2/courses'),
-      mockRoute('/exams', { body: { data: [] } }),
       mockRoute('/grades', { body: { data: [] } }),
       // The API client parses both `data` and `states` — omitting `states`
       // causes an uncaught .map() on undefined that silently fails the query.

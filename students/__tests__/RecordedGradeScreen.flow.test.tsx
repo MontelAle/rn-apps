@@ -11,8 +11,6 @@ describe('Recorded grade detail flow: Teaching, Grades, RecordedGradeScreen', ()
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/v2/courses'),
-      mockRoute('/exams', { body: { data: [] } }),
       mockRoute<ProvisionalGrade[]>('/provisional-grades', {
         body: { data: [], states: [] },
       }),

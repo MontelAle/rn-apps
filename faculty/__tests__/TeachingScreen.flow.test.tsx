@@ -33,8 +33,6 @@ describe('Teaching flow: home sections and the My Courses list', () => {
   it('the Exam calls section lists the upcoming exam calls', async () => {
     await render(<App />);
 
-    // The home screen shows the first three exam calls; only the one dated
-    // `Oggi` renders the translated "Today" subtitle.
     expect(await screen.findByText('Today')).toBeOnTheScreen();
   });
 
@@ -43,8 +41,7 @@ describe('Teaching flow: home sections and the My Courses list', () => {
 
     await fireEvent.press(await screen.findByText('My Courses'));
 
-    // CoursesScreen groups the courses by academic year and shows each course
-    // code, neither of which the home screen renders.
+    // CoursesScreen groups the courses by academic year and shows each course code
     expect(
       await screen.findByText(`A.Y. ${TEST_COURSE.academicYear}`),
     ).toBeOnTheScreen();

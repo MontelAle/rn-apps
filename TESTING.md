@@ -41,7 +41,7 @@ When a test reaches new code, a manual mock may be missing something. You'll usu
 
 ## Mocking the API
 
-The MSW server is in `src/testing/msw/server.ts`. It starts with `commonRoutes`, the routes almost every screen calls on boot (notifications, career, sites, ...). If every test needs a route, add it there. Otherwise add it in the test file with `server.use(...)`.
+The MSW server is in `src/testing/msw/server.ts`. It starts with `commonRoutes`, the routes almost every screen calls on boot (courses, exams, notifications, career, sites, ...). If every test needs a route, add it there. Otherwise add it in the test file with `server.use(...)`. Routes added with `server.use` take precedence. A test can override a common route by specifying a route.
 
 We keep `onUnhandledRequest: 'error'` to stop any request without a handler and log to console.
 
@@ -90,8 +90,9 @@ describe('Ticket flow', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/v2/courses'),
-      mockRoute('/exams', { body: { data: [] } }),
+      mockRoute<TicketOverview[]>('/student/tickets', {
+        body: { data: [TEST_TICKET_OVERVIEW] },
+      }),
     );
   });
 

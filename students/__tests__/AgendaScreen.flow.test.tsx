@@ -11,8 +11,6 @@ describe('Agenda flow: Agenda tab, weekly lecture loads', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/v2/courses'),
-      mockRoute('/exams', { body: { data: [] } }),
       mockRoute('/bookings', { body: { data: [] } }),
       mockRoute<Lecture[]>('/lectures', { body: { data: [TEST_LECTURE] } }),
       mockRoute('/deadlines', { body: { data: [] } }),

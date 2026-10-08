@@ -15,8 +15,6 @@ describe('Module course flow: expand and navigate into a sub-module', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/exams'),
-      mockRoute('/v2/courses'),
       mockRoute<Course>('/courses/{courseId}', {
         body: { data: PROGRAMMING_MODULE_A_DETAIL },
       }),
@@ -66,8 +64,6 @@ describe('Tab navigation: Info, Notices, Files', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/exams'),
-      mockRoute('/v2/courses'),
       mockRoute<Course>('/courses/{courseId}', {
         body: { data: WEB_APPS_II_DETAIL },
       }),

@@ -9,8 +9,6 @@ const [FIRST_STUDENT, SECOND_STUDENT] = TEST_EXAM_CALL.students;
 const openExamCall = async () => {
   await render(<App />);
 
-  // "Today" is the subtitle of the only exam call dated `Oggi`; pressing it
-  // opens that call, since the subject alone also names an assigned course.
   await fireEvent.press(await screen.findByText('Today'));
 
   return screen.findByText('Exam call info');

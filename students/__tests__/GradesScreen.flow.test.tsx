@@ -10,8 +10,6 @@ describe('Transcript flow: Teaching, Grades', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/v2/courses'),
-      mockRoute('/exams', { body: { data: [] } }),
       mockRoute('/grades', { body: { data: [] } }),
       mockRoute<ProvisionalGrade[]>('/provisional-grades', {
         body: { data: [], states: [] },

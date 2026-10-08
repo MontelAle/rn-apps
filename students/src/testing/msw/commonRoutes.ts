@@ -5,6 +5,8 @@ import { HttpHandler } from 'msw';
 import { TEST_PROFILE, TEST_STUDENT, TEST_TEACHER } from '../constants';
 
 export const commonRoutes = (): HttpHandler[] => [
+  mockRoute('/v2/courses'),
+  mockRoute('/exams', { body: { data: [] } }),
   mockRoute('/notifications', { body: { data: [] } }),
   mockRoute('/announcements', { body: { data: [] } }),
   mockRoute('/event-admissions', { body: { data: [] } }),

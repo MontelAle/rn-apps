@@ -10,7 +10,6 @@ import { server } from '~/testing/msw/server';
 describe('Messages flow: Profile, Messages', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
-    server.use(mockRoute('/v2/courses'), mockRoute('/exams'));
   });
 
   it('navigating to the Profile tab shows the Messages entry', async () => {

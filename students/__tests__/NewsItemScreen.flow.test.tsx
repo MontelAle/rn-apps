@@ -15,8 +15,6 @@ describe('News flow: Services, News & Events, NewsItemScreen', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/v2/courses'),
-      mockRoute('/exams', { body: { data: [] } }),
       mockRoute<EmailBadge>('/unreadEmails', {
         body: { data: { unreadEmails: '0' } },
       }),

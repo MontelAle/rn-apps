@@ -11,7 +11,6 @@ describe('Teacher info flow: exam detail', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/v2/courses'),
       mockRoute<Exam[]>('/exams', { body: { data: [AVAILABLE_EXAM] } }),
     );
   });
@@ -37,8 +36,6 @@ describe('Teacher info flow: course staff', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
     server.use(
-      mockRoute('/v2/courses'),
-      mockRoute('/exams'),
       mockRoute<typeof WEB_APPS_II_DETAIL>('/courses/{courseId}', {
         body: {
           data: {

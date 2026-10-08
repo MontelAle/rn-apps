@@ -11,10 +11,7 @@ import { mockConfirmAlert } from '~/testing/utils/mockConfirmAlert';
 describe('Exam flow: cancellation', () => {
   beforeEach(() => {
     __seedCredentials({ username: 's123456', password: 'fake-password' });
-    server.use(
-      mockRoute('/v2/courses'),
-      mockRoute<Exam[]>('/exams', { body: { data: [BOOKED_EXAM] } }),
-    );
+    server.use(mockRoute<Exam[]>('/exams', { body: { data: [BOOKED_EXAM] } }));
   });
 
   it('shows the booked exam on the Teaching screen', async () => {
